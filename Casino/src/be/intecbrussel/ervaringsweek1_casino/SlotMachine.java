@@ -1,5 +1,7 @@
 package be.intecbrussel.ervaringsweek1_casino;
 
+import java.util.Random;
+
 // Level 2: SlotMachine( kost 50 EURO per keer)
 // In je whatOddsToGive() methode kijk je na wat de
 // currentPayout is en dan pas je odds aan.
@@ -15,9 +17,7 @@ public class SlotMachine implements Casino {
     private int currentPayout;
     private int odds;
 
-    public SlotMachine() {
-
-    }
+    public SlotMachine() {}
 
     public int getCurrentPayout() {
         return currentPayout;
@@ -28,9 +28,9 @@ public class SlotMachine implements Casino {
     public void setOdds(int odds) {this.odds = odds;}
 
     private void whatOddsToGive(){
-        if (currentPayout > 1000)  setOdds(10);
-        else if (currentPayout > 900) setOdds(100);
-        else if (currentPayout > 800) setOdds(1000);
+        if (getCurrentPayout() > 1000)  setOdds(10);
+        else if (getCurrentPayout() > 900) setOdds(100);
+        else if (getCurrentPayout() > 800) setOdds(1000);
         else setOdds(1);
     }
 
@@ -41,16 +41,28 @@ public class SlotMachine implements Casino {
 
     // "kost 50 EURO per keer"
     public int playTheSlots(int moneyPaid){
-        if (moneyPaid != 50) {
-            System.out.println("You can only play with 50€.");
-            return moneyPaid; //pay back whatever was paid.
-        }
-        System.out.println("Three discs with numbers on them (0 yo 9) turn around, when you push the button they are stopped." +
-                "The number which You get a number between 0 and 1000");
-        for(int i=0; i < 3; i++){
-            System.out.println("Slots are turning...");
+        //old interpretation
+        //        if (moneyPaid != 50) {
+        //            System.out.println("You can only play with 50€.");
+        //            return moneyPaid; //pay back whatever was paid.
+        //        }
+        int turn = 1;
+        Random random = new Random();
+        int moneyLeft = moneyPaid;
+        while (moneyLeft >= 50){
+            moneyLeft -= 50;
+            System.out.println("Slot play turn " + turn);
+            whatOddsToGive();
+            int resultOfRandom = random.nextInt(getOdds());
+            if (resultOfRandom == 7){
 
+            }
         }
+
+
+
+
+
 
         return 0;
     }
