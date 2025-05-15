@@ -1,0 +1,42 @@
+@startuml
+package "Casino" {
+    class ClawMachine {
+        - numberOfTries: int
+        - moneyInTheBank: int
+        + getMoneyInTheBank(): int
+        + readyToWin(): boolean
+        + readyToWinBigTime(): boolean
+        + playGame(moneyPaid: int): String
+    }
+
+    class SlotMachine {
+        - currentPayout: int
+        - odds: int
+        - whatOddsToGive()
+        + playSlots(moneyPaid : int): int
+        + getCurrentPayout(): int
+    }
+
+    class Lotto {
+        - number1: int
+        - number2: int
+        - number3: int
+        - currentPayout: int
+        - didYouWin: boolean
+        - rollRandomNumbers()
+        + getNumbers(number1: int, number2: int, number3: int, moneyPutIn: int)
+
+    }
+
+
+    class Roulette {
+        - amountsOfTimesHouseLost: int
+        - winningNumber: int
+        - payout: int
+        - shouldFailSafeBeUsed(numberChosen: int)
+        + rollTheRoulette(moneyPutIn: int, numberChosen:int): int
+    }
+
+
+}
+@endumlml
