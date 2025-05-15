@@ -3,24 +3,33 @@ package "ervaringsweek1_casino" {
 
 skinparam classAttributeIconSize 0
 
-    class ClawMachine {
+
+    interface Casino{
+        {abstract} playGame(moneyPaid: int): int
+
+    }
+
+    class ClawMachine implements Casino{
+
         - numberOfTries: int
         - moneyInTheBank: int
         + getMoneyInTheBank(): int
         + readyToWin(): boolean
         + readyToWinBigTime(): boolean
-        + playGame(moneyPaid: int): String
+        + playGame(moneyPaid: int): int
+
     }
 
-    class SlotMachine {
+    class SlotMachine implements Casino{
         - currentPayout: int
         - odds: int
         - whatOddsToGive()
         + playSlots(moneyPaid : int): int
         + getCurrentPayout(): int
+        + playGame(moneyPaid: int): int
     }
 
-    class Lotto {
+    class Lotto implements Casino{
         - number1: int
         - number2: int
         - number3: int
@@ -28,15 +37,17 @@ skinparam classAttributeIconSize 0
         - didYouWin: boolean
         - rollRandomNumbers()
         + getNumbers(number1: int, number2: int, number3: int, moneyPutIn: int)
+        + playGame(moneyPaid: int): int
     }
 
 
-    class Roulette{
+    class Roulette implements Casino{
         - amountsOfTimesHouseLost: int
         - winningNumber: int
         - payout: int
         - shouldFailSafeBeUsed(numberChosen: int)
         + rollTheRoulette(moneyPutIn: int, numberChosen:int): int
+        + playGame(moneyPaid: int): int
     }
 
 
