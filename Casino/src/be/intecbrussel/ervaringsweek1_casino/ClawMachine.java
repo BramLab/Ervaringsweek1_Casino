@@ -1,6 +1,6 @@
 package be.intecbrussel.ervaringsweek1_casino;
 
-public class ClauwMachine implements Casino{
+public class ClawMachine implements Casino{
 
     private int numberOfTries = 0;
     private int moneyInTheBank = 0;
