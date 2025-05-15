@@ -1,5 +1,6 @@
 @startuml
-package "Casino" {
+package "ervaringsweek1_casino" {
+
 skinparam classAttributeIconSize 0
 
     class ClawMachine {
@@ -27,11 +28,10 @@ skinparam classAttributeIconSize 0
         - didYouWin: boolean
         - rollRandomNumbers()
         + getNumbers(number1: int, number2: int, number3: int, moneyPutIn: int)
-
     }
 
 
-    class Roulette {
+    class Roulette{
         - amountsOfTimesHouseLost: int
         - winningNumber: int
         - payout: int
