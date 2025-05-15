@@ -24,8 +24,9 @@ skinparam classAttributeIconSize 0
         - currentPayout: int
         - odds: int
         - whatOddsToGive()
-        + playSlots(moneyPaid : int): int
-        + getCurrentPayout(): int
+        +playSlots(moneyPaid : int): int
+        {abstract}+ getCurrentPayout(): int
+
         + playGame(moneyPaid: int): int
     }
 
