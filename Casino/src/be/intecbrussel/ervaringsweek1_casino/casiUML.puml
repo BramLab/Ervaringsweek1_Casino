@@ -1,5 +1,7 @@
 @startuml
 package "Casino" {
+skinparam classAttributeIconSize 0
+
     class ClawMachine {
         - numberOfTries: int
         - moneyInTheBank: int
