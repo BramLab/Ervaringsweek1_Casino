@@ -2,6 +2,7 @@ package be.intecbrussel.ervaringsweek1_casino;
 
 import java.util.Random;
 
+//Bram test
 public class Lotto implements Casino{
     private int number1;
     private int number2;
