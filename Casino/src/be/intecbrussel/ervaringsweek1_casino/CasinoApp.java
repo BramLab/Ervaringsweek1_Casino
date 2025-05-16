@@ -25,18 +25,29 @@ public class CasinoApp {
             ShowPersonalInfo();
             ShowGamesMenu();
             userChoice = scanner.nextLine().toUpperCase();
-            // before or after Player's game choice, player can indicate how much money to spend on chosen game?
-            // Here each game is launched
+            // todo: before or after Player's game choice, player can indicate how much money to spend on chosen game?
+
             switch (userChoice){
+                case "C":
+                    continue;
                 case "S":
-                    moneyInSafe -=1200;// todo: in method with checking
+                    moneyInSafe -=1200;// todo: in method with checking if available
                     SlotMachine slotMachine = new SlotMachine(1200);
                     player.loseMoney(200);// maybe other name? deductFromWallet?
                     player.addMoney(slotMachine.playTheSlots(200)); // addToWallet? (how to differenciate between winst and just money in wallet?)
                     moneyInSafe += slotMachine.getCurrentPayout();
+                    continue;
+                case "L":
+                    continue;
+                case "R":
+                    continue;
+                case "X":
                     break;
+                case "SECRET":
+                    SecretAdminMenu();
+                    continue;
                 default:
-                    break;
+                    continue;
             }
         } while (!userChoice.equals("X"));
     }
@@ -60,6 +71,10 @@ public class CasinoApp {
                 ANSI_RED + "L" + ANSI_RESET + "otto 100€/game, " +
                 ANSI_RED + "R" + ANSI_RESET + "oulette 200€/game." +
                 " e" + ANSI_RED + "X" + ANSI_RESET + "it.");
+    }
+
+    public void SecretAdminMenu(){
+        System.out.println("Money in safe: " + moneyInSafe);
     }
 
     // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
