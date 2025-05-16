@@ -11,27 +11,80 @@ import java.util.Random;
 // else → 1
 // In je playTheSlots(int moneyPutIn) methode plaats je de odds als parameter in je nextInt().
 // Als de randomNumber 7 is, dan win je 300 EURO en gaat dat af van de currentPayout().
-// Info: https://en.wikipedia.org/wiki/Slot_machine
-public class SlotMachine implements Casino {
+// Info vb https://en.wikipedia.org/wiki/Slot_machine
 
+public class SlotMachine implements Casino {
     private int currentPayout;
     private int odds;
+    private Random random;
 
-    public SlotMachine() {}
-
-    public int getCurrentPayout() {
-        return currentPayout;
+    public SlotMachine(int initialPayout) {
+        currentPayout = initialPayout;
+        this.random = new Random();
+    }
+    public SlotMachine(){
+        this(0);
     }
 
-    public void setCurrentPayout(int currentPayout) {this.currentPayout = currentPayout;}
-    public int getOdds() {return odds;}
-    public void setOdds(int odds) {this.odds = odds;}
+    public int getCurrentPayout()               {return currentPayout;}
 
-    private void whatOddsToGive(){
-        if (getCurrentPayout() > 1000)  setOdds(10);
-        else if (getCurrentPayout() > 900) setOdds(100);
-        else if (getCurrentPayout() > 800) setOdds(1000);
-        else setOdds(1);
+    public void whatOddsToGive() {
+        if (currentPayout > 1000)       odds =   10;
+        else if (currentPayout > 900)   odds =  100;
+        else if (currentPayout > 800)   odds = 1000;
+        else                            odds =    1;
+    }
+
+    // Money doesn't disappear: from Player's viewpoint, input is either:
+    // - returned as (part of) winst
+    // - returned as rest
+    // - lost & put in the bank of the casino.
+    public int playTheSlots(int moneyPutIn) {
+        if (moneyPutIn < 50) {
+            System.out.println("Niet genoeg geld! Je moet 50 EURO inzetten.");
+            return moneyPutIn;
+        }
+
+        int moneyWon = 0;
+        int moneyRest = moneyPutIn%50;
+        int moneyPlayLeft = moneyPutIn - moneyRest;
+        int gameturn = 1;
+
+        // PER GAME:
+        do{
+            System.out.print("Turn " + gameturn
+                + ", moneyPlayLeft " + moneyPlayLeft
+                + ", moneyRest " + moneyRest
+                + ", odds " + odds
+                + ", moneyWon " + moneyWon
+                + ", currentPayout" + currentPayout
+                + "   "
+            );
+            moneyPlayLeft -= 50;
+            currentPayout += 50;// danger if this "extra" would allow for extra plays -> infinite loop?
+            moneyWon += playTheSlots();
+            gameturn ++;
+        } while(moneyPlayLeft >= 50);
+        return moneyWon + moneyRest;
+    }
+
+    private int playTheSlots() {
+        whatOddsToGive();
+        int randomNumber = random.nextInt(odds); // 0 tot odds-1
+
+        if (randomNumber == 7) {
+            if (currentPayout >= 300) {
+                currentPayout -= 300;
+                System.out.println("Je wint 300 EURO!");
+                return 300;
+            } else {
+                System.out.println("Niet genoeg in de pot om volledig te betalen! Je krijgt wat op de bodem ligt.");
+                return currentPayout;
+            }
+        } else {
+            System.out.println("Geen winst deze keer.");
+            return 0;
+        }
     }
 
     @Override
@@ -39,32 +92,12 @@ public class SlotMachine implements Casino {
         return playTheSlots(moneyPaid);
     }
 
-    // "kost 50 EURO per keer"
-    public int playTheSlots(int moneyPaid){
-        //old interpretation
-        //        if (moneyPaid != 50) {
-        //            System.out.println("You can only play with 50€.");
-        //            return moneyPaid; //pay back whatever was paid.
-        //        }
-        int turn = 1;
-        Random random = new Random();
-        int moneyLeft = moneyPaid;
-        while (moneyLeft >= 50){
-            moneyLeft -= 50;
-            System.out.println("Slot play turn " + turn);
-            whatOddsToGive();
-            int resultOfRandom = random.nextInt(getOdds());
-            if (resultOfRandom == 7){
+    public static void main(String[] args) {
+        SlotMachine sm = new SlotMachine(1200);
 
-            }
-        }
-
-
-
-
-
-
-        return 0;
+        int winst = sm.playTheSlots(2000);
+        System.out.println("Winst: " + winst + " EURO");
+        System.out.println("Nieuwe payout: " + sm.getCurrentPayout());
     }
 
 }
