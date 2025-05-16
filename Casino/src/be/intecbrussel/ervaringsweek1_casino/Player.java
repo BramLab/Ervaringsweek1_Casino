@@ -1,3 +1,5 @@
+package be.intecbrussel.ervaringsweek1_casino;
+
 //Klasse die een speler voorstelt in het casino, met een naam en een saldo
 public class Player {
     private String name;

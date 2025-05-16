@@ -1,3 +1,5 @@
+package be.intecbrussel.ervaringsweek1_casino;
+
 import java.util.Random;
 import java.util.Scanner;
 
