@@ -1,8 +1,28 @@
 @startuml
 'https://plantuml.com/use-case-diagram
 
-Player -> (Start Menu)
-User --> (Use)
-(Use) -> Admin
+actor Player as p
+actor "Casino \n& its safe" as c
 
+package Casino{
+    usecase Wallet as wallet
+    usecase casinosafe as safe
+    usecase "Start Menu" as menu
+    usecase "Claw Machine" as claw
+    usecase "Slot Machine" as slot
+    usecase "Lotto" as lotto
+    usecase "Roulette" as roulette
+
+}
+p -> wallet
+p -> menu
+menu --> claw
+menu --> slot
+menu --> lotto
+menu --> roulette
+
+claw --> wallet
+slot --> wallet
+lotto --> wallet
+roulette --> wallet
 @enduml

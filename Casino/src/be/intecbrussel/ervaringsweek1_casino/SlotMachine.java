@@ -13,32 +13,45 @@ import java.util.Random;
 // Als de randomNumber 7 is, dan win je 300 EURO en gaat dat af van de currentPayout().
 // Info vb https://en.wikipedia.org/wiki/Slot_machine
 
+// Money doesn't just appear or disappear: from Player's viewpoint, input is either:
+// - returned as (part of) winst
+// - returned as rest
+// - lost & put in the bank of the casino.
+// From casino's viewpoint money from the safe may be used to setup a game,
+// and part of it may go to a player winning, but usually after some games the player loses more than player wins.
+// After a game what is in the payout of the machine is returned to the casino's safe.
+
 public class SlotMachine implements Casino {
+
+    // Properties.
     private int currentPayout;
     private int odds;
     private Random random;
+    private final int costPerGameBet = 50;
 
+    // Constructors
     public SlotMachine(int initialPayout) {
         currentPayout = initialPayout;
         this.random = new Random();
     }
-    public SlotMachine(){
-        this(0);
+
+    // Methods
+    public int getCurrentPayout(){
+        return currentPayout;
     }
 
-    public int getCurrentPayout()               {return currentPayout;}
-
-    public void whatOddsToGive() {
+    private void whatOddsToGive() {
         if (currentPayout > 1000)       odds =   10;
         else if (currentPayout > 900)   odds =  100;
         else if (currentPayout > 800)   odds = 1000;
         else                            odds =    1;
     }
 
-    // Money doesn't disappear: from Player's viewpoint, input is either:
-    // - returned as (part of) winst
-    // - returned as rest
-    // - lost & put in the bank of the casino.
+    @Override
+    public int playGame(int moneyPaid) {
+        return playTheSlots(moneyPaid);
+    }
+
     public int playTheSlots(int moneyPutIn) {
         if (moneyPutIn < 50) {
             System.out.println("Niet genoeg geld! Je moet 50 EURO inzetten.");
@@ -65,6 +78,7 @@ public class SlotMachine implements Casino {
             moneyWon += playTheSlots();
             gameturn ++;
         } while(moneyPlayLeft >= 50);
+
         return moneyWon + moneyRest;
     }
 
@@ -87,17 +101,22 @@ public class SlotMachine implements Casino {
         }
     }
 
-    @Override
-    public int playGame(int moneyPaid) {
-        return playTheSlots(moneyPaid);
+    //@Override
+    public int getCostPerGameBet() {
+        return costPerGameBet;
     }
 
-    public static void main(String[] args) {
-        SlotMachine sm = new SlotMachine(1200);
-
-        int winst = sm.playTheSlots(2000);
-        System.out.println("Winst: " + winst + " EURO");
-        System.out.println("Nieuwe payout: " + sm.getCurrentPayout());
+    //@Override
+    public int getPayout() {
+        return currentPayout;
     }
+
+//    public static void main(String[] args) {
+//        SlotMachine sm = new SlotMachine(1200);
+//
+//        int winst = sm.playTheSlots(2000);
+//        System.out.println("Winst: " + winst + " EURO");
+//        System.out.println("Nieuwe payout: " + sm.getCurrentPayout());
+//    }
 
 }

@@ -3,10 +3,11 @@ package "ervaringsweek1_casino" {
 
 skinparam classAttributeIconSize 0
 
+    interface Wallet{}
+    interface Safe{}
 
     interface Casino{
         {abstract} playGame(moneyPaid: int): int
-
     }
 
     class ClawMachine implements Casino{

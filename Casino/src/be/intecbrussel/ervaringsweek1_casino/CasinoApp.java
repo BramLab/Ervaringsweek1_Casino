@@ -4,37 +4,57 @@ import java.util.Scanner;
 
 public class CasinoApp {
 
+    // Fields.
     private Player player;
     private int moneyInSafe;
     Scanner scanner;
 
-    public static void main(String[] args){
-        CasinoApp casinoApp = new CasinoApp();
-    }
+    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
+    // Consructor & gameloop.
     public CasinoApp(){
         // init
         scanner = new Scanner(System.in);
-        player = new Player("Trump", 5000);
+        player = new Player("Trump", 1000);
         moneyInSafe = 2000;
-        String userChoice = "";
+        String playerGameChoice = "";
 
         // gameloop
         do{
             ShowWelcome();
             ShowPersonalInfo();
             ShowGamesMenu();
-            userChoice = scanner.nextLine().toUpperCase();
-            // todo: before or after Player's game choice, player can indicate how much money to spend on chosen game?
+            playerGameChoice = scanner.nextLine().toUpperCase();
+            int playerMoneyInBet = 0;
 
-            switch (userChoice){
+            // Player plays for how much?
+            System.out.println("Hoeveel geld wenst u in te zetten aub?");
+            playerMoneyInBet = Integer.parseInt(scanner.nextLine());
+            if (playerMoneyInBet > player.getMoney()){
+                System.out.println(ANSI_RED + "U heeft niet zoveel geld. Kies opnieuw aub." + ANSI_RESET);
+                continue;
+            }
+            player.loseMoney(playerMoneyInBet);
+
+            // Set up machine & start game.
+            switch (playerGameChoice){
                 case "C":
                     continue;
                 case "S":
-                    moneyInSafe -=1200;// todo: in method with checking if available
-                    SlotMachine slotMachine = new SlotMachine(1200);
-                    player.loseMoney(200);// maybe other name? deductFromWallet?
-                    player.addMoney(slotMachine.playTheSlots(200)); // addToWallet? (how to differenciate between winst and just money in wallet?)
+                    int fromSafeToMachine = 1000;
+                    moneyInSafe -= fromSafeToMachine;
+                    SlotMachine slotMachine = new SlotMachine(fromSafeToMachine);
+                    player.loseMoney(playerMoneyInBet);
+                    player.addMoney(slotMachine.playTheSlots(playerMoneyInBet));
                     moneyInSafe += slotMachine.getCurrentPayout();
                     continue;
                 case "L":
@@ -49,9 +69,10 @@ public class CasinoApp {
                 default:
                     continue;
             }
-        } while (!userChoice.equals("X"));
+        } while (!playerGameChoice.equals("X"));
     }
 
+    // Methods.
     public void ShowWelcome(){
         System.out.println("~~~  Casino La Perla Splendida  ~~~ \nWe wish you a nice time.\n");
     }
@@ -61,6 +82,7 @@ public class CasinoApp {
                 + ", you have " + player.getMoney() + " in your wallet."
                 //+ " You won " + player.showWinMoney() + " today."
         );
+        player.showWinMoney();
     }
 
     // We could make these options in another color depending on money left in Player's wallet.
@@ -77,15 +99,10 @@ public class CasinoApp {
         System.out.println("Money in safe: " + moneyInSafe);
     }
 
-    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+
+
+    public static void main(String[] args){
+        CasinoApp casinoApp = new CasinoApp();
+    }
 
 }
