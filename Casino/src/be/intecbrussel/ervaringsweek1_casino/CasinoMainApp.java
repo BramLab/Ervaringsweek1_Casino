@@ -23,11 +23,12 @@ public class CasinoMainApp {
             System.out.println("\n Kies een spel:");
             System.out.println("1. Spel");
             System.out.println("2. Lotto");
-            System.out.println("3. Stoppen");
+            System.out.println("3. SlotMashine");
+            System.out.println("4. Stoppen");
             System.out.print("Jouw keuze: ");
             int keuze = scanner.nextInt();
 
-            if (keuze == 3) {
+            if (keuze == 4) {
                 System.out.println("Je hebt ervoor gekozen om te stoppen.");
                 keepPlaying = false;
                 break;
@@ -52,8 +53,12 @@ public class CasinoMainApp {
                     break;
 
                 case 2:
-                    // Lotto spelen met jouw versie (via Scanner intern in Lotto)
+                    // Lotto spelen
                     lotto.playGame(inzet);
+                    break;
+                case 3:
+                    // SlotMachine spelen
+                    slotMachine.playGame(inzet);
                     break;
 
                 default:
