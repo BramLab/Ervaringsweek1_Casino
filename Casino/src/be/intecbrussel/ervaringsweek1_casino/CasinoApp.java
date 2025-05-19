@@ -27,6 +27,7 @@ public class CasinoApp {
         scanner = new Scanner(System.in);
 
         // Speler aanmaken
+        ShowWelcome();
         System.out.print("Welkom bij het Casino! Wat is je naam? ");
         String name = scanner.nextLine();
         System.out.print("Met hoeveel geld kom je binnen? ");
@@ -67,7 +68,7 @@ public class CasinoApp {
             // Set up machine & start game.
             switch (playerGameChoice){
                 case "C":
-                    continue;
+                    break;
                 case "S":
                     if (playerMoneyInBet%50 != 0 || playerMoneyInBet < 50){
                         System.out.println(ANSI_RED + "Gelieve een veelvoud van 50 in te geven aub." + ANSI_RESET);
@@ -76,54 +77,53 @@ public class CasinoApp {
                     player.loseMoney(playerMoneyInBet);
                     player.addMoney(slotMachine.playGame(playerMoneyInBet));
                     moneyInSafe += slotMachine.getCurrentPayout();
-                    continue;
+                    break;
                 case "L":
                     if (playerMoneyInBet%100 != 0 || playerMoneyInBet < 100){
                         System.out.println(ANSI_RED + "Gelieve een veelvoud van 100 in te geven aub." + ANSI_RESET);
                         continue;
                     }
                     player.loseMoney(playerMoneyInBet);
-                    player.addMoney(slotMachine.playGame(playerMoneyInBet));
-                    lotto.playGame(playerMoneyInBet);
-                    continue;
+                    player.addMoney(lotto.playGame(playerMoneyInBet));
+                    break;
                 case "R":
-                    continue;
+                    break;
                 case "X":
                     break;
                 case "SECRET":
                     SecretAdminMenu();
-                    continue;
+                    break;
                 default:
-                    continue;
+                    break;
             }
         } while (!playerGameChoice.equals("X"));
     }
 
     // Methods.
     public void ShowWelcome(){
-        System.out.println("~~~  Casino La Perla Splendida  ~~~ \nWe wish you a nice time.\n");
+        System.out.println("\n~~~  Casino La Perla Splendida  ~~~");
     }
 
     public void ShowPersonalInfo(){
-        System.out.println("Dear player " + player.getName()
-                + ", you have " + player.getMoney() + " in your wallet."
-                //+ " You won " + player.showWinMoney() + " today."
+        System.out.println("Beste speler " + player.getName()
+                + ", u hebt " + player.getMoney() + " in portefeuille."
+                + " U hebt " + player.getWinMoney() + " gewonnen vandaag."
+                + " (en " + player.getLostMoney() + "verloren.)"
         );
-        player.showWinMoney();
     }
 
     // We could make these options in another color depending on money left in Player's wallet.
     public void ShowGamesMenu(){
-        System.out.println("Please make a choice: ");
-        System.out.println(ANSI_RED + "C" + ANSI_RESET + "law Machine 1€/game, " +
-                ANSI_RED + "S" + ANSI_RESET + "lot Machine 50€/game, " +
-                ANSI_RED + "L" + ANSI_RESET + "otto 100€/game, " +
-                ANSI_RED + "R" + ANSI_RESET + "oulette 200€/game." +
+        System.out.println("Maak een keuze aub: ");
+        System.out.println(ANSI_RED + "C" + ANSI_RESET + "law Machine 1€/spel, " +
+                ANSI_RED + "S" + ANSI_RESET + "lot Machine 50€/spel, " +
+                ANSI_RED + "L" + ANSI_RESET + "otto 100€/spel, " +
+                ANSI_RED + "R" + ANSI_RESET + "oulette 200€/spel." +
                 " e" + ANSI_RED + "X" + ANSI_RESET + "it.");
     }
 
     public void SecretAdminMenu(){
-        System.out.println(ANSI_RED + "Money in safe: " + moneyInSafe + ANSI_RESET);
+        System.out.println(ANSI_RED + "Geld in de kluis: " + moneyInSafe + ANSI_RESET);
     }
 
 

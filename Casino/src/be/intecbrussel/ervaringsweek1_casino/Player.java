@@ -47,8 +47,17 @@ public class Player {
         System.out.println(name + " heeft in totaal " + totalWinMoney + " euro gewonnen.");
     }
 
+    public int getWinMoney() {
+        return  totalWinMoney;
+    }
+
     // Methode om het totaal verloren geld weer te geven
     public void showLostMoney() {
         System.out.println(name + " heeft in totaal " + totalLostMoney + " euro verloren.");
     }
+
+    public int getLostMoney() {
+        return totalLostMoney;
+    }
+
 }
