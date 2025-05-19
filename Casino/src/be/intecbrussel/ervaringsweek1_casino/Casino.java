@@ -5,9 +5,6 @@ public interface Casino {
     // Get minumum bet amount to be able to play this game.
     //int getCostPerGameBet();
 
-    // Setup a game with a local pot of money.
-    //void ACasinoGame(CasinoGame game, int startPayout);//fout
-
     // Player puts money in the game (adds to payout), plays the game and optionally wins money back.
     int playGame(int moneyPaid);
 
