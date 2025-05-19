@@ -40,6 +40,9 @@ public class Lotto implements Casino {
 
     // Methode die alles uitvoert: random getallen genereren, vergelijken en winst/verlies bepalen
     public void getNumbers(int number1, int number2, int number3, int moneyPutIn) {
+        if(moneyPutIn < 100){
+            System.out.println("Je moet minstens 100 euro inzetten");
+        }
         // Random getallen genereren
         rollRandomNumbers();
 
