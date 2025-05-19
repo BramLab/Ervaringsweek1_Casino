@@ -108,7 +108,9 @@ public class SlotMachine implements Casino {
 
     @Override
     public int getPayout() {
-        return currentPayout;
+        int tempPayout = currentPayout;
+        currentPayout = 0;
+        return tempPayout;
     }
 
 //    public static void main(String[] args) {

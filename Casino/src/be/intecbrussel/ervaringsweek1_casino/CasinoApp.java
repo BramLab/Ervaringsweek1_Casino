@@ -22,8 +22,26 @@ public class CasinoApp {
 
     // Constructor & gameloop.
     public CasinoApp(){
+
         // init
         scanner = new Scanner(System.in);
+
+        // Speler aanmaken
+        System.out.print("Welkom bij het Casino! Wat is je naam? ");
+        String name = scanner.nextLine();
+        System.out.print("Met hoeveel geld kom je binnen? ");
+        int startMoney = Integer.parseInt(scanner.nextLine());
+        player = new Player(name, startMoney);
+
+        // Spellen aanmaken
+        ClawMachine clawMachine = new ClawMachine();
+
+        int fromSafeToMachine = 1000;
+        moneyInSafe -= fromSafeToMachine;
+        SlotMachine slotMachine = new SlotMachine(fromSafeToMachine);
+
+        Lotto lotto = new Lotto(player);
+
         player = new Player("Trump", 1000);
         moneyInSafe = 2000;
         String playerGameChoice = "";
@@ -55,9 +73,6 @@ public class CasinoApp {
                         System.out.println(ANSI_RED + "Gelieve een veelvoud van 50 in te geven aub." + ANSI_RESET);
                         continue;
                     }
-                    int fromSafeToMachine = 1000;
-                    moneyInSafe -= fromSafeToMachine;
-                    SlotMachine slotMachine = new SlotMachine(fromSafeToMachine);
                     player.loseMoney(playerMoneyInBet);
                     player.addMoney(slotMachine.playGame(playerMoneyInBet));
                     moneyInSafe += slotMachine.getCurrentPayout();
@@ -67,8 +82,8 @@ public class CasinoApp {
                         System.out.println(ANSI_RED + "Gelieve een veelvoud van 100 in te geven aub." + ANSI_RESET);
                         continue;
                     }
-                    // Lotto spelen met jouw versie (via Scanner intern in Lotto)
-                    Lotto lotto = new Lotto(player);
+                    player.loseMoney(playerMoneyInBet);
+                    player.addMoney(slotMachine.playGame(playerMoneyInBet));
                     lotto.playGame(playerMoneyInBet);
                     continue;
                 case "R":
