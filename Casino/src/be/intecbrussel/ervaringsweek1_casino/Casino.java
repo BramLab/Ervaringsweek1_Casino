@@ -6,12 +6,12 @@ public interface Casino {
     //int getCostPerGameBet();
 
     // Setup a game with a local pot of money.
-    //void ACasinoGame(CasinoGame game, int startPayout);
+    //void ACasinoGame(CasinoGame game, int startPayout);//fout
 
     // Player puts money in the game (adds to payout), plays the game and optionally wins money back.
     int playGame(int moneyPaid);
 
     // When a player stops playing a game, the casino collects the money left in the payout of the game.
-    //int getPayout();
+    int getPayout();
 
 }
