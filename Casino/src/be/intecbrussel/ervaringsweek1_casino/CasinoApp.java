@@ -20,7 +20,7 @@ public class CasinoApp {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    // Consructor & gameloop.
+    // Constructor & gameloop.
     public CasinoApp(){
         // init
         scanner = new Scanner(System.in);
@@ -37,13 +37,14 @@ public class CasinoApp {
             int playerMoneyInBet = 0;
 
             // Player plays for how much?
-            System.out.println("Hoeveel geld wenst u in te zetten aub?");
-            playerMoneyInBet = Integer.parseInt(scanner.nextLine());
-            if (playerMoneyInBet > player.getMoney()){
-                System.out.println(ANSI_RED + "U heeft niet zoveel geld. Kies opnieuw aub." + ANSI_RESET);
-                continue;
+            if (!playerGameChoice.equals("SECRET")){
+                System.out.println("Hoeveel geld wenst u in te zetten aub?");
+                playerMoneyInBet = Integer.parseInt(scanner.nextLine());
+                if (playerMoneyInBet > player.getMoney()){
+                    System.out.println(ANSI_RED + "U heeft niet zoveel geld. Kies opnieuw aub." + ANSI_RESET);
+                    continue;
+                }
             }
-            player.loseMoney(playerMoneyInBet);
 
             // Set up machine & start game.
             switch (playerGameChoice){
@@ -69,6 +70,7 @@ public class CasinoApp {
                 default:
                     continue;
             }
+            playerGameChoice = "";
         } while (!playerGameChoice.equals("X"));
     }
 
@@ -96,7 +98,7 @@ public class CasinoApp {
     }
 
     public void SecretAdminMenu(){
-        System.out.println("Money in safe: " + moneyInSafe);
+        System.out.println(ANSI_RED + "Money in safe: " + moneyInSafe + ANSI_RESET);
     }
 
 
