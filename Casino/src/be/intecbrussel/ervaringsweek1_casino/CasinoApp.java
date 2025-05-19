@@ -24,7 +24,7 @@ public class CasinoApp {
     public CasinoApp(){
         // init
         scanner = new Scanner(System.in);
-        player = new Player("Trump", 2);
+        player = new Player("Trump", 1000);
         moneyInSafe = 2000;
         String playerGameChoice = "";
 
