@@ -37,7 +37,7 @@ public class CasinoApp {
             int playerMoneyInBet = 0;
 
             // Player plays for how much?
-            if (!playerGameChoice.equals("SECRET")){
+            if (!(playerGameChoice.equals("SECRET") || playerGameChoice.equals("X"))){
                 System.out.println("Hoeveel geld wenst u in te zetten aub?");
                 playerMoneyInBet = Integer.parseInt(scanner.nextLine());
                 if (playerMoneyInBet > player.getMoney()){
@@ -51,14 +51,25 @@ public class CasinoApp {
                 case "C":
                     continue;
                 case "S":
+                    if (playerMoneyInBet%50 != 0 || playerMoneyInBet < 50){
+                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 50 in te geven aub." + ANSI_RESET);
+                        continue;
+                    }
                     int fromSafeToMachine = 1000;
                     moneyInSafe -= fromSafeToMachine;
                     SlotMachine slotMachine = new SlotMachine(fromSafeToMachine);
                     player.loseMoney(playerMoneyInBet);
-                    player.addMoney(slotMachine.playTheSlots(playerMoneyInBet));
+                    player.addMoney(slotMachine.playGame(playerMoneyInBet));
                     moneyInSafe += slotMachine.getCurrentPayout();
                     continue;
                 case "L":
+                    if (playerMoneyInBet%100 != 0 || playerMoneyInBet < 100){
+                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 100 in te geven aub." + ANSI_RESET);
+                        continue;
+                    }
+                    // Lotto spelen met jouw versie (via Scanner intern in Lotto)
+                    Lotto lotto = new Lotto(player);
+                    lotto.playGame(playerMoneyInBet);
                     continue;
                 case "R":
                     continue;

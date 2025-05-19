@@ -5,6 +5,11 @@ public class ClawMachine implements Casino{
     private int numberOfTries = 0;
     private int moneyInTheBank = 0;
 
+    @Override
+    public int getPayout() {
+        return getMoneyInTheBank();
+    }
+
     public int getMoneyInTheBank() {
         return moneyInTheBank;
     }
@@ -40,5 +45,7 @@ public class ClawMachine implements Casino{
 
         return prize;
     }
+
+
 
 }

@@ -106,7 +106,7 @@ public class SlotMachine implements Casino {
         return costPerGameBet;
     }
 
-    //@Override
+    @Override
     public int getPayout() {
         return currentPayout;
     }

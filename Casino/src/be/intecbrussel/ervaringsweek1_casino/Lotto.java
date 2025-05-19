@@ -20,6 +20,11 @@ public class Lotto implements Casino {
         return currentPayout;
     }
 
+    @Override
+    public int getPayout() {
+        return getCurrentPayout();
+    }
+
     //Methode om 3 willekeurige getallen tussen 0 en 10 te genereren
     private void rollRandomNumbers() {
         Random random = new Random();
@@ -99,7 +104,7 @@ public int playGame(int moneyPaid) {
     return currentPayout;
 }
 
-//Methode om te controleren of een nummer geldig is
+    //Methode om te controleren of een nummer geldig is
 private boolean isValidNumber(int number) {
     return number >= 0 && number <= 10;
 }

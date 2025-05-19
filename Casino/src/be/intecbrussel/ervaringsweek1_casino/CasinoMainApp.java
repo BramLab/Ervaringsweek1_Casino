@@ -1,3 +1,5 @@
+package be.intecbrussel.ervaringsweek1_casino;
+
 import java.util.Scanner;
 
 public class CasinoMainApp {
