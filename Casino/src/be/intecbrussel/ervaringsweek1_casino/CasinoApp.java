@@ -81,7 +81,6 @@ public class CasinoApp {
                 default:
                     continue;
             }
-            playerGameChoice = "";
         } while (!playerGameChoice.equals("X"));
     }
 
