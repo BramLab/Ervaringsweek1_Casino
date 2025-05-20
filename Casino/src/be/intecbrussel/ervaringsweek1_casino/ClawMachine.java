@@ -1,8 +1,9 @@
 package be.intecbrussel.ervaringsweek1_casino;
 
+
 import java.util.*;
 
-public class ClawMachine implements Casino{
+public class ClawMachine implements Casino {
     private final Random random = new Random();
     private final Scanner scanner;
 
@@ -48,23 +49,26 @@ public class ClawMachine implements Casino{
     public void startGame() {
         askForBalance();
 
-        System.out.println("\nEach play costs €1. Try your luck!");
-        while (balance > 0) {
+        System.out.println("\nEach play costs " + getCostPerGameBet() + " Try your luck!");
+        while (balance >= getCostPerGameBet()) {
             System.out.println("\n💶 Current balance: €" + balance);
             if (!askToPlay()) break;
 
-            balance -= 1;
-            int prizeValue = playGame(1);
+            balance -= getCostPerGameBet();
+            int prizeValue = playGame(getCostPerGameBet());
             balance += prizeValue;
         }
 
-        if (balance == 0) {
+        if (balance  <  getCostPerGameBet()) {
             System.out.println("😢 You're out of money. Better luck next time!");
         }
 
         System.out.println("💰 Final balance: €" + balance);
         printHistory();
         System.out.println(getStats());
+
+        int collected = getPayout();
+        System.out.println("🏦 Casino player collected €" + collected + " from the claw machine.");
     }
 
     private void askForBalance() {
@@ -175,5 +179,20 @@ public class ClawMachine implements Casino{
     private boolean readyToWinBigTime() {
         return numberOfTries > 10;
     }
+
+    @Override
+    public int getCostPerGameBet() {
+        return 1; // cost per game is €1
+    }
+
+    @Override
+    public int getPayout() {
+        int payout = moneyInTheBank;
+        moneyInTheBank = 0; // reset after payout collected
+        return payout;
+    }
 }
+
+
+
 
