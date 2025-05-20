@@ -15,6 +15,7 @@ public class CasinoMainApp {
         // Spellen aanmaken
         ClawMachine clawMachine = new ClawMachine();
         Lotto lotto = new Lotto(player);
+        Roulette roulette = new Roulette();
 
         boolean keepPlaying = true;
         //KeepPlaying - Controleert of de gebruiker wil spelen
@@ -24,11 +25,12 @@ public class CasinoMainApp {
             System.out.println("1. Spel");
             System.out.println("2. Lotto");
             System.out.println("3. SlotMashine");
-            System.out.println("4. Stoppen");
+            System.out.println("4 - Roulette");
+            System.out.println("0 - Stoppen");
             System.out.print("Jouw keuze: ");
             int keuze = scanner.nextInt();
 
-            if (keuze == 4) {
+            if (keuze == 0) {
                 System.out.println("Je hebt ervoor gekozen om te stoppen.");
                 keepPlaying = false;
                 break;
@@ -59,6 +61,14 @@ public class CasinoMainApp {
                 case 3:
                     // SlotMachine spelen
                     slotMachine.playGame(inzet);
+                    break;
+                case 4:
+                    if (inzet < 200 || inzet % 200 != 0) {
+                        System.out.println("Inzet moet een veelvoud van 200 € zijn.");
+                        break;
+                    }
+                    player.loseMoney(inzet);
+                    player.addMoney(roulette.playGame(inzet));
                     break;
 
                 default:
