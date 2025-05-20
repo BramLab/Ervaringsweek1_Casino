@@ -68,7 +68,7 @@ public class ClawMachine implements Casino {
         System.out.println(getStats());
 
         int collected = getPayout();
-        System.out.println("🏦 Casino player collected €" + collected + " from the claw machine.");
+        System.out.println("🏦 Casino collected €" + collected + " from the claw machine.");
     }
 
     private void askForBalance() {
