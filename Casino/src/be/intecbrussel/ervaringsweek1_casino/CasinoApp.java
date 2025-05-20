@@ -98,6 +98,7 @@ public class CasinoApp {
                     player.addMoney(lotto.playGame(playerMoneyInBet));
                     break;
                 case "R":
+                    System.out.println("🎡 Place your bets! Welcome to the Roulette table!");
                     if (playerMoneyInBet % 200 != 0 || playerMoneyInBet < 200) {
                         System.out.println(ANSI_RED + "Gelieve een veelvoud van 200 in te geven aub." + ANSI_RESET);
                         continue;
