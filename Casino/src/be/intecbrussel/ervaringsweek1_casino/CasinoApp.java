@@ -4,6 +4,11 @@ import java.util.Scanner;
 
 public class CasinoApp {
 
+
+
+
+
+
     // Fields.
     private Player player;
     private int moneyInSafe;
@@ -36,7 +41,7 @@ public class CasinoApp {
         moneyInSafe = 2000;
 
         // Spellen aanmaken
-        Casino clawMachine = new ClawMachine();
+        ClawMachine clawMachine = new ClawMachine(scanner);
         Roulette roulette = new Roulette();
         int fromSafeToMachine = 1000;
         moneyInSafe -= fromSafeToMachine;
@@ -67,6 +72,9 @@ public class CasinoApp {
             // Set up machine & start game.
             switch (playerGameChoice){
                 case "C":
+                    System.out.println("🎰 Welcome to ClawMachine!");
+                    clawMachine.startGame();
+
                     break;
                 case "S":
                     costPerGameBet = slotMachine.getCostPerGameBet();
