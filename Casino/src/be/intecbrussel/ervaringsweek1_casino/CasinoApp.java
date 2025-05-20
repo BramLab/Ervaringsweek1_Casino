@@ -37,6 +37,7 @@ public class CasinoApp {
 
         // Spellen aanmaken
         Casino clawMachine = new ClawMachine();
+        Roulette roulette = new Roulette();
         int fromSafeToMachine = 1000;
         moneyInSafe -= fromSafeToMachine;
         Casino slotMachine = new SlotMachine(fromSafeToMachine); // <- INTERFACE game = new GAME.
@@ -89,6 +90,13 @@ public class CasinoApp {
                     player.addMoney(lotto.playGame(playerMoneyInBet));
                     break;
                 case "R":
+                    if (playerMoneyInBet % 200 != 0 || playerMoneyInBet < 200) {
+                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 200 in te geven aub." + ANSI_RESET);
+                        continue;
+                    }
+                    player.loseMoney(playerMoneyInBet);
+                    player.addMoney(roulette.playGame(playerMoneyInBet));
+                    // moneyInSafe += roulette.getPayout(); // activeren als alle games getPayout() hebben
                     break;
                 case "X":
                     break;
