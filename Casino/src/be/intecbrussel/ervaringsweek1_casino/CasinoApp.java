@@ -46,6 +46,7 @@ public class CasinoApp {
         int fromSafeToMachine = 1000;
         moneyInSafe -= fromSafeToMachine;
         Casino slotMachine = new SlotMachine(fromSafeToMachine); // <- INTERFACE game = new GAME.
+        Casino roulette = new Roulette(fromSafeToMachine);
         Casino lotto = new Lotto(player);
 
         String playerGameChoice = "";
@@ -104,7 +105,8 @@ public class CasinoApp {
                     }
                     player.loseMoney(playerMoneyInBet);
                     player.addMoney(roulette.playGame(playerMoneyInBet));
-                    // moneyInSafe += roulette.getPayout(); // activeren als alle games getPayout() hebben
+                    moneyInSafe += roulette.getPayout(); //  het resterend bedrag in de machine wordt naar de kluis verplaatst na het spel
+                    //roulette.resetPayout(); // activeer dit als je de machine leeg wil maken na elk spel, zoals bij SlotMachine
                     break;
                 case "X":
                     break;
