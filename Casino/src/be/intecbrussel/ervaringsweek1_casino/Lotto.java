@@ -12,7 +12,7 @@ public class Lotto implements Casino {
     private int currentPayout;
     private boolean didYouWin;
     private Player player;
-    private final int costPerGameBet = 200;
+    private final int costPerGameBet = 100;
 
     public Lotto(Player player) {
         this.player = player;
