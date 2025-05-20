@@ -25,8 +25,8 @@ public class CasinoMainApp {
             System.out.println("1. Spel");
             System.out.println("2. Lotto");
             System.out.println("3. SlotMashine");
-            System.out.println("4 - Roulette");
-            System.out.println("0 - Stoppen");
+            System.out.println("4. Roulette");
+            System.out.println("0. Stoppen");
             System.out.print("Jouw keuze: ");
             int keuze = scanner.nextInt();
 
