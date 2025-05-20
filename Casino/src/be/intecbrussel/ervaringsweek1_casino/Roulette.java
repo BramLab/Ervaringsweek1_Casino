@@ -92,4 +92,7 @@ public Roulette(int initialPayout) {
         payout = 0;          // empty the machine
         return money;
     }
+    public void resetPayout() {
+    payout = 0;
+    }
 }
