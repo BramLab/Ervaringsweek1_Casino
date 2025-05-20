@@ -42,7 +42,6 @@ public class CasinoApp {
 
         // Spellen aanmaken
         ClawMachine clawMachine = new ClawMachine(scanner);
-        Roulette roulette = new Roulette();
         int fromSafeToMachine = 1000;
         moneyInSafe -= fromSafeToMachine;
         Casino slotMachine = new SlotMachine(fromSafeToMachine); // <- INTERFACE game = new GAME.
