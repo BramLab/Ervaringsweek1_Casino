@@ -33,18 +33,15 @@ public class CasinoApp {
         System.out.print("Met hoeveel geld kom je binnen? ");
         int startMoney = Integer.parseInt(scanner.nextLine());
         player = new Player(name, startMoney);
+        moneyInSafe = 2000;
 
         // Spellen aanmaken
-        ClawMachine clawMachine = new ClawMachine();
-
+        Casino clawMachine = new ClawMachine();
         int fromSafeToMachine = 1000;
         moneyInSafe -= fromSafeToMachine;
-        SlotMachine slotMachine = new SlotMachine(fromSafeToMachine);
+        Casino slotMachine = new SlotMachine(fromSafeToMachine); // <- INTERFACE game = new GAME.
+        Casino lotto = new Lotto(player);
 
-        Lotto lotto = new Lotto(player);
-
-        player = new Player("Trump", 1000);
-        moneyInSafe = 2000;
         String playerGameChoice = "";
 
         // gameloop
@@ -54,6 +51,7 @@ public class CasinoApp {
             ShowGamesMenu();
             playerGameChoice = scanner.nextLine().toUpperCase();
             int playerMoneyInBet = 0;
+            int costPerGameBet = 0;// Different per game machine.
 
             // Player plays for how much?
             if (!(playerGameChoice.equals("SECRET") || playerGameChoice.equals("X"))){
@@ -70,13 +68,17 @@ public class CasinoApp {
                 case "C":
                     break;
                 case "S":
-                    if (playerMoneyInBet%50 != 0 || playerMoneyInBet < 50){
-                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 50 in te geven aub." + ANSI_RESET);
+                    costPerGameBet = slotMachine.getCostPerGameBet();
+                    if (playerMoneyInBet%costPerGameBet != 0 || playerMoneyInBet < costPerGameBet){
+                        System.out.println(ANSI_RED + "Gelieve een veelvoud van " + costPerGameBet + "in te geven aub." + ANSI_RESET);
                         continue;
                     }
+                    // Remove money from wallet.
                     player.loseMoney(playerMoneyInBet);
+                    // And play with same amount in machine. What is won returns into player's wallet.
                     player.addMoney(slotMachine.playGame(playerMoneyInBet));
-                    moneyInSafe += slotMachine.getCurrentPayout();
+                    // After playing, empty machine content into casino's safe. (re-initiate later)
+                    moneyInSafe += slotMachine.getPayout();
                     break;
                 case "L":
                     if (playerMoneyInBet%100 != 0 || playerMoneyInBet < 100){

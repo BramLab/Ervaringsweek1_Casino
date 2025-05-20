@@ -4,6 +4,7 @@ public class ClawMachine implements Casino{
 
     private int numberOfTries = 0;
     private int moneyInTheBank = 0;
+    private final int costPerGameBet = 1;
 
     @Override
     public int getPayout() {
@@ -26,7 +27,12 @@ public class ClawMachine implements Casino{
         }
 
 
-        // Play the game
+    @Override
+    public int getCostPerGameBet() {
+        return costPerGameBet;
+    }
+
+    // Play the game
     @Override
     public int playGame(int moneyPaid) {
         numberOfTries++;

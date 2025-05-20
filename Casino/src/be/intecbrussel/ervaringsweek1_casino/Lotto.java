@@ -12,6 +12,7 @@ public class Lotto implements Casino {
     private int currentPayout;
     private boolean didYouWin;
     private Player player;
+    private final int costPerGameBet = 200;
 
     public Lotto(Player player) {
         this.player = player;
@@ -94,6 +95,11 @@ public class Lotto implements Casino {
         }
         //Toon de gegenereerde getallen
         System.out.println("Lotto-nummers waren: " + this.number1 + ", " + this.number2 + ", " + this.number3);
+    }
+
+    @Override
+    public int getCostPerGameBet() {
+        return costPerGameBet;
     }
 
     @Override
