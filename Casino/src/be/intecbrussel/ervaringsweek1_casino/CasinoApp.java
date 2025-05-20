@@ -46,7 +46,7 @@ public class CasinoApp {
         do{
             // Spellen aanmaken
             ClawMachine clawMachine = new ClawMachine(scanner);
-            Casino slotMachine = new SlotMachine(removeFromSafe(1000)); // <- INTERFACE game = new GAME.
+            Casino slotMachine = new SlotMachine(removeFromSafe(1000));
             Casino roulette = new Roulette(removeFromSafe(1000));
             Casino lotto = new Lotto(player);
 
@@ -57,63 +57,105 @@ public class CasinoApp {
             int playerMoneyInBet = 0;
             int costPerGameBet = 0;// Different per game machine.
 
-            // Player plays for how much?
-            if (!(playerGameChoice.equals("SECRET") || playerGameChoice.equals("X"))){
+//            // region A)
+//
+//            // Player plays for how much?
+//            if (!(playerGameChoice.equals("SECRET") || playerGameChoice.equals("X"))){
+//                System.out.println("Hoeveel geld wenst u in te zetten aub?");
+//                playerMoneyInBet = Integer.parseInt(scanner.nextLine());
+//                if (playerMoneyInBet > player.getMoney()){
+//                    System.out.println(ANSI_RED + "U heeft niet zoveel geld. Kies opnieuw aub." + ANSI_RESET);
+//                    continue;
+//                }
+//            }
+//
+//            // Set up machine & start game.
+//            switch (playerGameChoice){
+//                case "C":
+//                    System.out.println("🎰 Welcome to ClawMachine!");
+//                    clawMachine.startGame();
+//                    break;
+//                case "S":
+//                    costPerGameBet = slotMachine.getCostPerGameBet();
+//                    if (playerMoneyInBet%costPerGameBet != 0 || playerMoneyInBet < costPerGameBet){
+//                        System.out.println(ANSI_RED + "Gelieve een veelvoud van " + costPerGameBet + "in te geven aub." + ANSI_RESET);
+//                        continue;
+//                    }
+//                    // Remove money from wallet and play with same amount in machine. What is won returns into player's wallet.
+//                    player.addMoney(slotMachine.playGame(player.loseMoney(playerMoneyInBet)));
+//                    // After playing, empty machine content into casino's safe. (re-initiate later)
+//                    break;
+//                case "L":
+//                    if (playerMoneyInBet%100 != 0 || playerMoneyInBet < 100){
+//                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 100 in te geven aub." + ANSI_RESET);
+//                        continue;
+//                    }
+//                    player.addMoney(lotto.playGame(player.loseMoney(playerMoneyInBet)));
+//                    break;
+//                case "R":
+//                    System.out.println("🎡 Place your bets! Welcome to the Roulette table!");
+//                    if (playerMoneyInBet % 200 != 0 || playerMoneyInBet < 200) {
+//                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 200 in te geven aub." + ANSI_RESET);
+//                        continue;
+//                    }
+//                    player.loseMoney(playerMoneyInBet);
+//                    player.addMoney(roulette.playGame(playerMoneyInBet));
+//                    break;
+//                case "X":
+//                    break;
+//                case "SECRET":
+//                    SecretAdminMenu();
+//                    break;
+//                default:
+//                    break;
+//            }
+//            // Empty all machines to really know how much casino owns. They are reinitialised @ start of gameloop.
+//            moneyInSafe += clawMachine.getPayout();
+//            moneyInSafe += slotMachine.getPayout();
+//            moneyInSafe += lotto.getPayout();
+//            moneyInSafe += roulette.getPayout(); //  het resterend bedrag in de machine wordt naar de kluis verplaatst na het spel
+//            //roulette.resetPayout(); // activeer dit als je de machine leeg wil maken na elk spel, zoals bij SlotMachine
+//
+//            // endregion A)
+
+            // region B) MAKE USE OF INTERFACE:
+            if (playerGameChoice.equals("SECRET")){
+                SecretAdminMenu();
+                continue;
+            }
+            else if (playerGameChoice.equals("X")){
+                break;
+            }
+            else {
                 System.out.println("Hoeveel geld wenst u in te zetten aub?");
                 playerMoneyInBet = Integer.parseInt(scanner.nextLine());
-                if (playerMoneyInBet > player.getMoney()){
+                if (playerMoneyInBet > player.getMoney()) {
                     System.out.println(ANSI_RED + "U heeft niet zoveel geld. Kies opnieuw aub." + ANSI_RESET);
                     continue;
                 }
-            }
 
-            // Set up machine & start game.
-            switch (playerGameChoice){
-                case "C":
-                    System.out.println("🎰 Welcome to ClawMachine!");
-                    clawMachine.startGame();
+                Casino chosenMachine = switch (playerGameChoice) {
+                    case "C" -> new ClawMachine(scanner);
+                    case "S" -> new SlotMachine(removeFromSafe(1000));
+                    case "L" -> new Lotto(player);
+                    case "R" -> new Roulette(removeFromSafe(1000));
+                    default -> new SlotMachine();// nothing in it.
+                };
 
-                    break;
-                case "S":
-                    costPerGameBet = slotMachine.getCostPerGameBet();
-                    if (playerMoneyInBet%costPerGameBet != 0 || playerMoneyInBet < costPerGameBet){
-                        System.out.println(ANSI_RED + "Gelieve een veelvoud van " + costPerGameBet + "in te geven aub." + ANSI_RESET);
-                        continue;
-                    }
-                    // Remove money from wallet and play with same amount in machine. What is won returns into player's wallet.
-                    player.addMoney(slotMachine.playGame(player.loseMoney(playerMoneyInBet)));
-                    // After playing, empty machine content into casino's safe. (re-initiate later)
-                    moneyInSafe += slotMachine.getPayout();
-                    break;
-                case "L":
-                    if (playerMoneyInBet%100 != 0 || playerMoneyInBet < 100){
-                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 100 in te geven aub." + ANSI_RESET);
-                        continue;
-                    }
-                    player.loseMoney(playerMoneyInBet);
-                    player.addMoney(lotto.playGame(playerMoneyInBet));
-                    break;
-                case "R":
-                    System.out.println("🎡 Place your bets! Welcome to the Roulette table!");
-                    if (playerMoneyInBet % 200 != 0 || playerMoneyInBet < 200) {
-                        System.out.println(ANSI_RED + "Gelieve een veelvoud van 200 in te geven aub." + ANSI_RESET);
-                        continue;
-                    }
-                    player.loseMoney(playerMoneyInBet);
-                    player.addMoney(roulette.playGame(playerMoneyInBet));
-                    moneyInSafe += roulette.getPayout(); //  het resterend bedrag in de machine wordt naar de kluis verplaatst na het spel
-                    //roulette.resetPayout(); // activeer dit als je de machine leeg wil maken na elk spel, zoals bij SlotMachine
-                    break;
-                case "X":
-                    break;
-                case "SECRET":
-                    SecretAdminMenu();
-                    break;
-                default:
-                    break;
+                int playCost = chosenMachine.getCostPerGameBet();
+                if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
+                    System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + "in te geven aub." + ANSI_RESET);
+                    continue;
+                }
+                player.addMoney(chosenMachine.playGame(player.loseMoney(playerMoneyInBet)));
+                moneyInSafe += chosenMachine.getPayout();
+
             }
+            // endregion B) MAKE USE OF INTERFACE:
+
 
         } while (!playerGameChoice.equals("X"));
+
     }
 
     private int removeFromSafe(int amount){

@@ -27,7 +27,7 @@ public class SlotMachine implements Casino {
     private int currentPayout;
     private int odds;
     private Random random;
-    private final int PLAY_COST = 50;
+    private static final int PLAY_COST = 50;
 
     // Constructors
     public SlotMachine(int initialPayout) {
