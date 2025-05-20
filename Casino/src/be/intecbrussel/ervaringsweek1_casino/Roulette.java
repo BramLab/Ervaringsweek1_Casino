@@ -12,12 +12,15 @@ public class Roulette implements Casino {
     private static final int PLAY_COST = 200;   // cost per game
 
     // constructor
-    public Roulette() {
-        amountsOfTimesHouseLost = 0;
-        winningNumber = -1;   // no roll yet
-        payout = 0;
-    }
+   public Roulette() {
+    this(0); // Default to 0 payout if no argument
+}
 
+public Roulette(int initialPayout) {
+    this.amountsOfTimesHouseLost = 0;
+    this.winningNumber = -1;
+    this.payout = initialPayout;
+}
     // helper: decide winning number, apply fail-safe if needed
     private void decideWinningNumber(int playerChoice) {
         boolean failSafe = amountsOfTimesHouseLost > 3 || payout < 500;
