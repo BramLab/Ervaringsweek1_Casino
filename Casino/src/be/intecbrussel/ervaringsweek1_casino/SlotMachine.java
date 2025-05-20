@@ -27,12 +27,16 @@ public class SlotMachine implements Casino {
     private int currentPayout;
     private int odds;
     private Random random;
-    private final int costPerGameBet = 50;
+    private final int PLAY_COST = 50;
 
     // Constructors
     public SlotMachine(int initialPayout) {
         currentPayout = initialPayout;
         this.random = new Random();
+    }
+
+    public SlotMachine() {
+        this(0);
     }
 
     // Methods
@@ -103,7 +107,7 @@ public class SlotMachine implements Casino {
 
     @Override
     public int getCostPerGameBet() {
-        return costPerGameBet;
+        return PLAY_COST;
     }
 
     @Override

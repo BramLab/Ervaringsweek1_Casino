@@ -32,9 +32,10 @@ public class Player {
     }
 
     //Methode om de hoeveelheid geld van de speler te verminderen
-    public void loseMoney(int amount) {
+    public int loseMoney(int amount) {
         money -= amount;
         totalLostMoney += amount; // Tel het verloren bedrag bij het totaal op
+        return amount;
     }
 
     //Methode om te controleren of de persoon genoeg geld heeft om te spelen

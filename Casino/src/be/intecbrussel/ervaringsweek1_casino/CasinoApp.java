@@ -38,20 +38,18 @@ public class CasinoApp {
         System.out.print("Met hoeveel geld kom je binnen? ");
         int startMoney = Integer.parseInt(scanner.nextLine());
         player = new Player(name, startMoney);
-        moneyInSafe = 2000;
-
-        // Spellen aanmaken
-        ClawMachine clawMachine = new ClawMachine(scanner);
-        int fromSafeToMachine = 1000;
-        moneyInSafe -= fromSafeToMachine;
-        Casino slotMachine = new SlotMachine(fromSafeToMachine); // <- INTERFACE game = new GAME.
-        Casino roulette = new Roulette(fromSafeToMachine);
-        Casino lotto = new Lotto(player);
+        moneyInSafe = 10000;
 
         String playerGameChoice = "";
 
         // gameloop
         do{
+            // Spellen aanmaken
+            ClawMachine clawMachine = new ClawMachine(scanner);
+            Casino slotMachine = new SlotMachine(removeFromSafe(1000)); // <- INTERFACE game = new GAME.
+            Casino roulette = new Roulette(removeFromSafe(1000));
+            Casino lotto = new Lotto(player);
+
             ShowWelcome();
             ShowPersonalInfo();
             ShowGamesMenu();
@@ -82,10 +80,8 @@ public class CasinoApp {
                         System.out.println(ANSI_RED + "Gelieve een veelvoud van " + costPerGameBet + "in te geven aub." + ANSI_RESET);
                         continue;
                     }
-                    // Remove money from wallet.
-                    player.loseMoney(playerMoneyInBet);
-                    // And play with same amount in machine. What is won returns into player's wallet.
-                    player.addMoney(slotMachine.playGame(playerMoneyInBet));
+                    // Remove money from wallet and play with same amount in machine. What is won returns into player's wallet.
+                    player.addMoney(slotMachine.playGame(player.loseMoney(playerMoneyInBet)));
                     // After playing, empty machine content into casino's safe. (re-initiate later)
                     moneyInSafe += slotMachine.getPayout();
                     break;
@@ -116,7 +112,13 @@ public class CasinoApp {
                 default:
                     break;
             }
+
         } while (!playerGameChoice.equals("X"));
+    }
+
+    private int removeFromSafe(int amount){
+        moneyInSafe -= amount;
+        return amount;
     }
 
     // Methods.
