@@ -55,7 +55,7 @@ public Roulette(int initialPayout) {
 
         // check bet amount
         if (moneyPaid < PLAY_COST || moneyPaid % PLAY_COST != 0) {
-            System.out.println("Insert a multiple of " + PLAY_COST + " € to play.");
+            System.out.println("Insert a multiple of " + PLAY_COST + " € om te spelen.");
             return 0;
         }
 
@@ -64,11 +64,11 @@ public Roulette(int initialPayout) {
 
         // ask player for a number
         Scanner in = new Scanner(System.in);
-        System.out.print("Pick a number between 0 and 20: ");
+        System.out.print("Kies een getal tussen 0 en 20: ");
         int playerChoice = in.nextInt();
 
         if (playerChoice < 0 || playerChoice > 20) {
-            System.out.println("Invalid number. Bet lost.");
+            System.out.println("Ongeldig nummer. Inzet verloren.");
             return 0;
         }
 
@@ -76,14 +76,14 @@ public Roulette(int initialPayout) {
         int prize = spin(playerChoice);
 
         if (prize > 0) {
-            System.out.println("You win " + prize + " €!");
+            System.out.println("je hebt gewonnen " + prize + " €!");
         } else {
-            System.out.println("You lose. Winning number was " + winningNumber + ".");
+            System.out.println("Je hebt verloren. Het winnende nummer was " + winningNumber + ".");
         }
         return prize;
     }
 
-     public int getCostPerGameBet() {
+     public int getPlayCost() {
         return PLAY_COST;
     }
 
