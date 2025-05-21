@@ -55,7 +55,7 @@ public Roulette(int initialPayout) {
 
         // check bet amount
         if (moneyPaid < PLAY_COST || moneyPaid % PLAY_COST != 0) {
-            System.out.println("Insert a multiple of " + PLAY_COST + " € om te spelen.");
+            System.out.println("Voeg een veelvoud van " + PLAY_COST + " € om te spelen.");
             return 0;
         }
 
