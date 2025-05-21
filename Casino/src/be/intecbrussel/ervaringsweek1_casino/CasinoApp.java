@@ -39,20 +39,20 @@ public class CasinoApp {
         int startMoney = Integer.parseInt(scanner.nextLine());
         player = new Player(name, startMoney);
         moneyInSafe = 10000;
-
         String playerGameChoice = "";
 
         // gameloop
         do{
             // Spellen aanmaken
-            ClawMachine clawMachine = new ClawMachine(scanner);
-            Casino slotMachine = new SlotMachine(removeFromSafe(1000));
-            Casino roulette = new Roulette(removeFromSafe(1000));
-            Casino lotto = new Lotto(player);
+//            ClawMachine clawMachine = new ClawMachine(scanner);
+//            Casino slotMachine = new SlotMachine(removeFromSafe(1000));
+//            Casino roulette = new Roulette(removeFromSafe(1000));
+//            Casino lotto = new Lotto(player);
 
             ShowWelcome();
             ShowPersonalInfo();
             ShowGamesMenu();
+            playerGameChoice = "";// scanner probleem?
             playerGameChoice = scanner.nextLine().toUpperCase();
             int playerMoneyInBet = 0;
             int costPerGameBet = 0;// Different per game machine.
@@ -123,22 +123,33 @@ public class CasinoApp {
                 SecretAdminMenu();
                 continue;
             }
-            else if (playerGameChoice.equals("X")){
+            else if (playerGameChoice.equals("0")){
                 break;
             }
             else {
                 System.out.println("Hoeveel geld wenst u in te zetten aub?");
-                playerMoneyInBet = Integer.parseInt(scanner.nextLine());
+
+                int numTries = 3;
+                while (true) {
+                    try {
+                        playerMoneyInBet = Integer.parseInt(scanner.nextLine());
+                        break;
+                    } catch (Exception e ) {
+                        if (--numTries == 0) throw e;
+                        System.out.println("Geef een getal in aub.");
+                    }
+                }
+
                 if (playerMoneyInBet > player.getMoney()) {
                     System.out.println(ANSI_RED + "U heeft niet zoveel geld. Kies opnieuw aub." + ANSI_RESET);
                     continue;
                 }
 
                 Casino chosenMachine = switch (playerGameChoice) {
-                    case "C" -> new ClawMachine(scanner);
-                    case "S" -> new SlotMachine(removeFromSafe(1000));
-                    case "L" -> new Lotto(player);
-                    case "R" -> new Roulette(removeFromSafe(1000));
+                    case "1" -> new ClawMachine(scanner);
+                    case "2" -> new SlotMachine(removeFromSafe(1000));
+                    case "3" -> new Lotto(player);
+                    case "4" -> new Roulette(removeFromSafe(1000));
                     default -> new SlotMachine();// nothing in it.
                 };
 
@@ -147,14 +158,14 @@ public class CasinoApp {
                     System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + "in te geven aub." + ANSI_RESET);
                     continue;
                 }
-                player.addMoney(chosenMachine.playGame(player.loseMoney(playerMoneyInBet)));
+                player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
                 moneyInSafe += chosenMachine.getPayout();
 
             }
             // endregion B) MAKE USE OF INTERFACE:
 
 
-        } while (!playerGameChoice.equals("X"));
+        } while (!playerGameChoice.equals("0"));
 
     }
 
@@ -175,11 +186,11 @@ public class CasinoApp {
     // We could make these options in another color depending on money left in Player's wallet.
     public void ShowGamesMenu(){
         System.out.println("Maak een keuze aub: ");
-        System.out.println(ANSI_RED + "C" + ANSI_RESET + "law Machine 1€/spel, " +
-                ANSI_RED + "S" + ANSI_RESET + "lot Machine 50€/spel, " +
-                ANSI_RED + "L" + ANSI_RESET + "otto 100€/spel, " +
-                ANSI_RED + "R" + ANSI_RESET + "oulette 200€/spel." +
-                " e" + ANSI_RED + "X" + ANSI_RESET + "it.");
+        System.out.println(ANSI_RED + "1" + ANSI_RESET + " Claw Machine 1€/spel, " +
+                ANSI_RED + "\n2" + ANSI_RESET + " Slot Machine 50€/spel, " +
+                ANSI_RED + "\n3" + ANSI_RESET + " Lotto 100€/spel, " +
+                ANSI_RED + "\n4" + ANSI_RESET + " Roulette 200€/spel." +
+                ANSI_RED + "\n0" + ANSI_RESET + " Exit. (Spel beeindigen.)");
     }
 
     public void SecretAdminMenu(){

@@ -95,6 +95,7 @@ public class ClawMachine implements Casino {
 
     @Override
     public int playGame(int moneyPaid) {
+
         numberOfTries++;
         moneyInTheBank += moneyPaid;
 

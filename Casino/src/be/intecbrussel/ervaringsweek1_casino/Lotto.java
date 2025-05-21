@@ -19,7 +19,7 @@ public class Lotto implements Casino {
         this.currentPayout = 0;
     }
     public int getCurrentPayout() {
-        return currentPayout = 0;
+        return currentPayout;
     }
     @Override
     public int getPayout() {
@@ -85,7 +85,7 @@ public class Lotto implements Casino {
             }
             // Verlies de inzet omdat de pot te klein is
             System.out.println("Je hebt verloren.");
-            player.loseMoney(moneyPutIn); //Verlies van bedrag
+            //player.loseMoney(moneyPutIn); //Verlies van bedrag
             currentPayout += moneyPutIn; //Bedrag naar de pot toevoegen
         } else {
             // Speler heeft verloren, dus de inzet gaat verloren
