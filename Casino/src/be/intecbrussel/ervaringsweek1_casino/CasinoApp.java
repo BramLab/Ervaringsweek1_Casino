@@ -169,11 +169,7 @@ public class CasinoApp {
     }
 
     public void ShowPersonalInfo(){
-        System.out.println("Beste speler " + player.getName()
-                + ", u hebt " + player.getMoney() + " in portefeuille."
-                + " U hebt " + player.getWinMoney() + " gewonnen vandaag."
-                + " (en " + player.getLostMoney() + "verloren.)"
-        );
+       System.out.println(player);
     }
 
     // We could make these options in another color depending on money left in Player's wallet.
