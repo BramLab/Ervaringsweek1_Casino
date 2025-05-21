@@ -49,7 +49,6 @@ public class CasinoApp {
             playerGameChoice = scanner.nextLine().toUpperCase();
             int playerMoneyInBet = 0;
 
-            // region B) MAKE USE OF INTERFACE:
             if (playerGameChoice.equals("SECRET")){
                 SecretAdminMenu();
                 continue;
@@ -86,15 +85,13 @@ public class CasinoApp {
 
                 int playCost = chosenMachine.getCostPerGameBet();
                 if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
-                    System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + "in te geven aub." + ANSI_RESET);
+                    System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
                     continue;
                 }
                 player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
                 moneyInSafe += chosenMachine.getPayout();
 
             }
-            // endregion B) MAKE USE OF INTERFACE:
-
 
         } while (!playerGameChoice.equals("0"));
 
