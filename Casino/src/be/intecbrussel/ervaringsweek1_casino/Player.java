@@ -25,32 +25,57 @@ public class Player {
         return money;
     }
 
+    //Getter voor totaal gewonnen geld
+    public int getTotalWinMoney() {
+        return totalWinMoney;
+    }
+
+    //Getter voor totaal verloren geld
+    public int getTotalLostMoney() {
+        return totalLostMoney;
+    }
+
     // Methode om de hoeveelheid geld van de speler te verhogen
     public void addMoney(int amount) {
-        money += amount;
-        totalWinMoney += amount; // Tel het gewonnen bedrag bij het totaal op
+        if (amount > 0) {
+            money += amount; // Voeg gewonnen geld toe aan het saldo
+            totalWinMoney += amount; // Houd de winst bij
+        }
     }
 
     //Methode om de hoeveelheid geld van de speler te verminderen
-    public int loseMoney(int amount) {
-        money -= amount;
-        totalLostMoney += amount; // Tel het verloren bedrag bij het totaal op
-        return amount;
+    public void loseMoney(int amount) {
+        if (amount > 0) {
+            // Zorg dat saldo niet negatief wordt: verlies maximaal het bedrag dat beschikbaar is
+            if (amount > money) {
+                amount = money;
+            }
+            money -= amount;           // Verlaag het saldo met het verliesbedrag
+            totalLostMoney += amount;  // Houd het verlies bij
+        }
     }
-
+    public int loseMoneyReturn(int amount) {
+        if (amount > 0) {
+            if (amount > money) {
+                amount = money;  // Verlies maximaal het geld dat beschikbaar is
+            }
+            money -= amount;           // Verlaag saldo
+            totalLostMoney += amount;  // Houd verlies bij
+            return amount;             // Geef terug hoeveel er echt verloren is
+        }
+        return 0;  // Als geen verlies
+    }
     //Methode om te controleren of de persoon genoeg geld heeft om te spelen
     public boolean canPlay(){
         return money > 0;
     }
-    
+
     // Methode om het totaal gewonnen geld weer te geven
     public void showWinMoney() {
         System.out.println(name + " heeft in totaal " + totalWinMoney + " euro gewonnen.");
     }
 
-    public int getWinMoney() {
-        return  totalWinMoney;
-    }
+
 
     // Methode om het totaal verloren geld weer te geven
     public void showLostMoney() {
@@ -60,5 +85,10 @@ public class Player {
     public int getLostMoney() {
         return totalLostMoney;
     }
-
+    @Override
+    public String toString() {
+        return "Beste speler " + name + ", je hebt " + money + " euro in portefeuille.\n" +
+                "Je hebt " + totalWinMoney + " euro gewonnen vandaag en " +
+                totalLostMoney + " euro verloren.";
+    }
 }
