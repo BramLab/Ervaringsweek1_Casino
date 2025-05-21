@@ -16,10 +16,15 @@ public class CasinoApp {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_Y = "\u001B[93m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
+
+    // Fruit and other emoji's code:
+    // https://www.webnots.com/alt-code-shortcuts-for-food-items/
+    // https://www.webnots.com/alt-code-shortcuts-for-sports-and-games-symbols/
 
     // Constructor & gameloop.
     public CasinoApp(){
@@ -29,10 +34,21 @@ public class CasinoApp {
 
         // Speler aanmaken
         ShowWelcome();
-        System.out.print("Welkom bij het Casino! Wat is je naam? ");
+
+        System.out.print("Welkom bij het Casino! Wat is je naam aub? ");
         String name = scanner.nextLine();
-        System.out.print("Met hoeveel geld kom je binnen? ");
-        int startMoney = Integer.parseInt(scanner.nextLine());
+        System.out.print("Met hoeveel geld kom je binnen aub? ");
+        int startMoney;// = Integer.parseInt(scanner.nextLine());
+        int numTries = 3;
+        while (true) {
+            try {
+                startMoney = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (Exception e ) {
+                if (--numTries == 0) throw e;
+                System.out.println("Geef een getal in aub.");
+            }
+        }
         player = new Player(name, startMoney);
         moneyInSafe = 10000;
         String playerGameChoice = "";
@@ -48,15 +64,15 @@ public class CasinoApp {
 
             if (playerGameChoice.equals("SECRET")){
                 SecretAdminMenu();
-                continue;
-            }
+             }
             else if (playerGameChoice.equals("0")){
                 break;
             }
-            else {
-                System.out.println("Hoeveel geld wenst u in te zetten aub?");
+            else if (playerGameChoice.equals("1") || playerGameChoice.equals("2")
+                    || playerGameChoice.equals("3") || playerGameChoice.equals("4")) {
+                System.out.println("Hoeveel geld wenst u in te zetten aub? ");
 
-                int numTries = 3;
+                numTries = 3;
                 while (true) {
                     try {
                         playerMoneyInBet = Integer.parseInt(scanner.nextLine());
@@ -77,8 +93,9 @@ public class CasinoApp {
                     case "2" -> new SlotMachine(removeFromSafe(1000));
                     case "3" -> new Lotto(player);
                     case "4" -> new Roulette(removeFromSafe(1000));
-                    default -> new SlotMachine();// nothing in it.
+                    default -> new SlotMachine();
                 };
+                if (chosenMachine == null) continue;
 
                 int playCost = chosenMachine.getCostPerGameBet();
 
@@ -88,7 +105,9 @@ public class CasinoApp {
                 }
                 player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
                 moneyInSafe += chosenMachine.getPayout();
-
+            }
+            else{
+                System.out.println("Gelieve een keuze uit het menu te maken aub.");
             }
 
         } while (!playerGameChoice.equals("0"));
