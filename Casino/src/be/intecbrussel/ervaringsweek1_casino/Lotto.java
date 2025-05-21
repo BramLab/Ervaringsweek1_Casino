@@ -37,16 +37,12 @@ public class Lotto implements Casino {
     //Methode om de ingevoerde nummers van de gebruiker te vergelijken met random getallen
     private void compareNumbers(int number1, int number2, int number3) {
         //Als minstens een nummer overeenkomt, zet didYouWin op true
-        if (this.number1 == number1 || this.number2 == number2 || this.number3 == number3) {
-            didYouWin = true;
-        } else {
-            didYouWin = false;
-        }
+        didYouWin = (this.number1 == number1 || this.number2 == number2 || this.number3 == number3);
     }
 
     // Methode die alles uitvoert: random getallen genereren, vergelijken en winst/verlies bepalen
     public void getNumbers(int number1, int number2, int number3, int moneyPutIn) {
-        if(moneyPutIn < 100){
+        if(moneyPutIn < costPerGameBet){
             System.out.println("Je moet minstens 100 euro inzetten");
         }
         Scanner scanner = new Scanner(System.in);
@@ -59,8 +55,8 @@ public class Lotto implements Casino {
         // Controleer of de player gewonnen heeft
         if (didYouWin && currentPayout > 500) {
             // Gewonnen + genoeg in de pot
-            System.out.println("Je hebt gewonnen! Je krijgt 500 euro.");
-            player.addMoney(500); //Voeg 500euro toe aan de speler
+            System.out.println("\uD83C\uDF89 Je hebt gewonnen! Je krijgt 500 euro.");
+           player.addMoney(500); //Voeg 500euro toe aan de speler
             currentPayout -= 500; // Verlaag current Payout
         } else if (didYouWin && currentPayout <= 500) {
             // Gewonnen maar pot te laag --> opnieuw rollen tot je niet meer wint
@@ -90,7 +86,6 @@ public class Lotto implements Casino {
         } else {
             // Speler heeft verloren, dus de inzet gaat verloren
             System.out.println("Je hebt verloren!");
-            player.loseMoney(moneyPutIn);//Verlies van bedrag
             currentPayout -= moneyPutIn;//Bedrag naar de pot toevoegen
         }
         //Toon de gegenereerde getallen
