@@ -16,12 +16,13 @@ public class CasinoApp {
 
     // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW_BRIGHT = "\u001B[93m";
+
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_YELLOW_BRIGHT = "\u001B[93m";
-    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
@@ -79,8 +80,8 @@ public class CasinoApp {
             }
             else if (playerGameChoice.equals("1") || playerGameChoice.equals("2")
                     || playerGameChoice.equals("3") || playerGameChoice.equals("4")) {
-                System.out.println("Hoeveel geld wenst u in te zetten aub? ");
 
+                System.out.print("Hoeveel geld wenst u in te zetten aub? ");
                 numTries = 3;
                 while (true) {
                     try {
@@ -140,12 +141,14 @@ public class CasinoApp {
 
     // We could make these options in another color depending on money left in Player's wallet.
     public void ShowGamesMenu(){
-        System.out.println("Maak een keuze aub: ");
-        System.out.println(ANSI_RED + "1" + ANSI_RESET + " Claw Machine 1€/spel, " +
+
+        System.out.println(
+                ANSI_RED + "1" + ANSI_RESET + " Claw Machine 1€/spel, " +
                 ANSI_RED + "\n2" + ANSI_RESET + " Slot Machine 50€/spel, " +
                 ANSI_RED + "\n3" + ANSI_RESET + " Lotto 100€/spel, " +
                 ANSI_RED + "\n4" + ANSI_RESET + " Roulette 200€/spel." +
                 ANSI_RED + "\n0" + ANSI_RESET + " Exit. (Spel beeindigen.)");
+        System.out.print("Maak een spelkeuze aub: ");
     }
 
     public void SecretAdminMenu(){

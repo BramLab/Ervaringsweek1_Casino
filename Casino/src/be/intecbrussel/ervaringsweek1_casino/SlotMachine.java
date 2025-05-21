@@ -30,6 +30,11 @@ public class SlotMachine implements Casino {
     private Random random;
     private static final int PLAY_COST = 50;
     private Player player;
+    private Scanner scanner;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW_BRIGHT = "\u001B[93m";
 
     // Constructors
     public SlotMachine(int initialPayout, Player player){
@@ -40,6 +45,7 @@ public class SlotMachine implements Casino {
     public SlotMachine(int initialPayout) {
         currentPayout = initialPayout;
         this.random = new Random();
+        scanner = new Scanner(System.in);
     }
 
     public SlotMachine() {
@@ -71,33 +77,31 @@ public class SlotMachine implements Casino {
 
         int moneyWon = 0;
         int moneyRest = moneyPutIn%50;
-        int moneyPlayLeft = moneyPutIn - moneyRest;
+        int balance = moneyPutIn - moneyRest;
         int gameturn = 1;
 
         // PER GAME:
         do{
-            System.out.print("Turn " + gameturn
-                + ", moneyPlayLeft " + moneyPlayLeft
-                + ", moneyRest " + moneyRest
-                + ", odds " + odds
-                + ", moneyWon " + moneyWon
-                + ", currentPayout" + currentPayout
-                + "   "
-            );
+//            System.out.print("Turn " + gameturn
+//                + ", balance " + balance
+//                + ", moneyRest " + moneyRest
+//                + ", odds " + odds
+//                + ", moneyWon " + moneyWon
+//                + ", currentPayout" + currentPayout
+//                + "   "
+//            );
 
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Wil je verder de Slot machine spelen? (j/n): ");
-            String input = scanner.nextLine();
-            if (!input.equalsIgnoreCase("j")) {
-                player.returnedMoneyAndNotLost(moneyPlayLeft);
+            System.out.print("\nBeurt " + gameturn + ": 💶 Resterend saldo: " +  ANSI_BLUE + balance + ANSI_RESET + ". ");
+            if (!askToPlay()){
+                player.returnedMoneyAndNotLost(balance);
                 break;
             }
 
-            moneyPlayLeft -= 50;
+            balance -= 50;
             currentPayout += 50;// danger if this "extra" would allow for extra plays -> infinite loop?
             moneyWon += playTheSlots();
             gameturn ++;
-        } while(moneyPlayLeft >= 50);
+        } while(balance >= 50);
         player.returnedMoneyAndNotLost(moneyRest);
         return moneyWon + moneyRest;
     }
@@ -109,7 +113,7 @@ public class SlotMachine implements Casino {
         if (randomNumber == 7) {
             if (currentPayout >= 300) {
                 currentPayout -= 300;
-                System.out.println("Je wint 300 EURO!");
+                System.out.println(ANSI_YELLOW_BRIGHT + "Je wint 300 EURO!" + ANSI_RESET);
                 return 300;
             } else {
                 System.out.println("Niet genoeg in de pot om volledig te betalen! Je krijgt wat op de bodem ligt.");
@@ -131,6 +135,12 @@ public class SlotMachine implements Casino {
         int tempPayout = currentPayout;
         currentPayout = 0;
         return tempPayout;
+    }
+
+    private boolean askToPlay() {
+        System.out.print("Wil je verder spelen met de slotmachine? (j/n): ");
+        String input = scanner.nextLine();
+        return input.equalsIgnoreCase("j");
     }
 
 }
