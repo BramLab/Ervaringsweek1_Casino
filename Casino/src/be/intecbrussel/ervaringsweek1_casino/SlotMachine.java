@@ -1,6 +1,7 @@
 package be.intecbrussel.ervaringsweek1_casino;
 
 import java.util.Random;
+import java.util.Scanner;
 
 // Level 2: SlotMachine( kost 50 EURO per keer)
 // In je whatOddsToGive() methode kijk je na wat de
@@ -28,8 +29,14 @@ public class SlotMachine implements Casino {
     private int odds;
     private Random random;
     private static final int PLAY_COST = 50;
+    private Player player;
 
     // Constructors
+    public SlotMachine(int initialPayout, Player player){
+        this(initialPayout);
+        this.player = player;
+    }
+
     public SlotMachine(int initialPayout) {
         currentPayout = initialPayout;
         this.random = new Random();
@@ -77,12 +84,21 @@ public class SlotMachine implements Casino {
                 + ", currentPayout" + currentPayout
                 + "   "
             );
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Wil je verder de Slot machine spelen? (j/n): ");
+            String input = scanner.nextLine();
+            if (!input.equalsIgnoreCase("j")) {
+                player.returnedMoneyAndNotLost(moneyPlayLeft);
+                break;
+            }
+
             moneyPlayLeft -= 50;
             currentPayout += 50;// danger if this "extra" would allow for extra plays -> infinite loop?
             moneyWon += playTheSlots();
             gameturn ++;
         } while(moneyPlayLeft >= 50);
-
+        player.returnedMoneyAndNotLost(moneyRest);
         return moneyWon + moneyRest;
     }
 

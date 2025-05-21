@@ -5,6 +5,10 @@ import java.util.Scanner;
 public class CasinoApp {
 
 
+
+
+
+
     // Fields.
     private Player player;
     private int moneyInSafe;
@@ -16,7 +20,7 @@ public class CasinoApp {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_Y = "\u001B[93m";
+    public static final String ANSI_YELLOW_BRIGHT = "\u001B[93m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
@@ -51,17 +55,22 @@ public class CasinoApp {
         }
         player = new Player(name, startMoney);
         moneyInSafe = 10000;
+
         String playerGameChoice = "";
 
         // gameloop
         do{
+
+
             ShowWelcome();
             ShowPersonalInfo();
             System.out.println();
             ShowGamesMenu();
             playerGameChoice = scanner.nextLine().toUpperCase();
             int playerMoneyInBet = 0;
+            int costPerGameBet = 0;// Different per game machine.
 
+            // region B) MAKE USE OF INTERFACE:
             if (playerGameChoice.equals("SECRET")){
                 SecretAdminMenu();
              }
@@ -90,12 +99,12 @@ public class CasinoApp {
 
                 Casino chosenMachine = switch (playerGameChoice) {
                     case "1" -> new ClawMachine(scanner);
-                    case "2" -> new SlotMachine(removeFromSafe(1000));
+                    case "2" -> new SlotMachine(removeFromSafe(1000), player);
                     case "3" -> new Lotto(player);
                     case "4" -> new Roulette(removeFromSafe(1000));
-                    default -> new SlotMachine();
+                    default -> null;
                 };
-                if (chosenMachine == null) continue;
+                //if (chosenMachine == null) continue;
 
                 int playCost = chosenMachine.getCostPerGameBet();
 

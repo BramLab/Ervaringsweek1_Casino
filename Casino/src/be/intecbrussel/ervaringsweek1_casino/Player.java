@@ -46,6 +46,13 @@ public class Player {
         }
     }
 
+    // Part of money that ultimately wasn't played with in machine.
+    // As it was previously deducted as a loss, that loss is now (partly) annulled.
+    public void returnedMoneyAndNotLost(int amount){
+        money += amount;
+        totalLostMoney -= amount;
+    }
+
     //Methode om de hoeveelheid geld van de speler te verminderen
     public void loseMoney(int amount) {
         if (amount > 0) {
@@ -68,6 +75,7 @@ public class Player {
         }
         return 0;  // Als geen verlies
     }
+
     //Methode om te controleren of de persoon genoeg geld heeft om te spelen
     public boolean canPlay(){
         return money > 0;
