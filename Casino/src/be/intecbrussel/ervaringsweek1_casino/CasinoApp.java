@@ -5,10 +5,6 @@ import java.util.Scanner;
 public class CasinoApp {
 
 
-
-
-
-
     // Fields.
     private Player player;
     private int moneyInSafe;
@@ -110,6 +106,8 @@ public class CasinoApp {
         System.out.println(player);
     }
 
+
+
     // We could make these options in another color depending on money left in Player's wallet.
     public void ShowGamesMenu(){
         System.out.println("Maak een keuze aub: ");
@@ -123,6 +121,7 @@ public class CasinoApp {
     public void SecretAdminMenu(){
         System.out.println(ANSI_RED + "Geld in de kluis: " + moneyInSafe + ANSI_RESET);
     }
+
 
     public static void main(String[] args){
         CasinoApp casinoApp = new CasinoApp();

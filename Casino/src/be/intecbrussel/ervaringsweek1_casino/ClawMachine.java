@@ -166,9 +166,10 @@ public class ClawMachine implements Casino {
 
     @Override
     public int getPayout() {
-        int payout = moneyInTheBank;
+        int netProfit = moneyInTheBank - totalValueWon;
         moneyInTheBank = 0;
-        return payout;
+        totalValueWon = 0; // reset so old values don't continue to count
+        return netProfit;
     }
 }
 
