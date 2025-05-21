@@ -117,12 +117,4 @@ public class SlotMachine implements Casino {
         return tempPayout;
     }
 
-//    public static void main(String[] args) {
-//        SlotMachine sm = new SlotMachine(1200);
-//
-//        int winst = sm.playTheSlots(2000);
-//        System.out.println("Winst: " + winst + " EURO");
-//        System.out.println("Nieuwe payout: " + sm.getCurrentPayout());
-//    }
-
 }

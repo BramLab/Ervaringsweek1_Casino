@@ -1,0 +1,125 @@
+@startuml
+' Package
+package "ervaringsweek1_casino" {
+
+skinparam classAttributeIconSize 0
+
+' =========================
+' Interfaces
+' =========================
+
+interface Casino {
+    + getCostPerGameBet(): int
+    + playGame(moneyPaid: int): int
+    + getPayout(): int
+}
+
+' =========================
+' Classes
+' =========================
+
+class CasinoApp {
+    - player: Player
+    - moneyInSafe: int
+    + ShowWelcome(): void
+    + ShowPersonalInfo(): void
+    + ShowGamesMenu(): void
+    + SecretAdminMenu(): void
+    - removeFromSafe(amount: int): int
+}
+
+class CasinoGameAdapter implements Casino {
+    + getCostPerGameBet(): int
+    + playGame(moneyPaid: int): int
+    + getPayout(): int
+}
+
+class ClawMachine implements Casino {
+    + toString(): String
+    + startGame(): void
+    - askForBalance(): void
+    - askToPlay(): boolean
+    + playGame(moneyPaid: int): int
+    - tryGrabItem(): Item
+    - getRandomItemByRarity(rarity: String): Item
+    - logPlay(item: Item): void
+    + printHistory(): void
+    + getStats(): String
+    - playSoundEffect(result: String): void
+    - readyToWin(): boolean
+    - readyToWinBigTime(): boolean
+    + getCostPerGameBet(): int
+    + getPayout(): int
+}
+
+class SlotMachine implements Casino {
+    - currentPayout: int
+    - odds: int
+    - random: Random
+    + getCurrentPayout(): int
+    - whatOddsToGive(): void
+    + playGame(moneyPaid: int): int
+    + playTheSlots(moneyPutIn: int): int
+    + getCostPerGameBet(): int
+    + getPayout(): int
+}
+
+class Lotto implements Casino {
+    - number1: int
+    - number2: int
+    - number3: int
+    - currentPayout: int
+    - didYouWin: boolean
+    - player: Player
+    + getCurrentPayout(): int
+    + getPayout(): int
+    - rollRandomNumbers(): void
+    - compareNumbers(number1: int, number2: int, number3: int): void
+    + getNumbers(number1: int, number2: int, number3: int, moneyPutIn: int): void
+    + getCostPerGameBet(): int
+    + playGame(moneyPaid: int): int
+    - isValidNumber(number: int): boolean
+}
+
+class Roulette implements Casino {
+    - amountsOfTimesHouseLost: int
+    - winningNumber: int
+    - payout: int
+    - decideWinningNumber(playerChoice: int): void
+    - spin(playerChoice: int): int
+    + playGame(moneyPaid: int): int
+    + getCostPerGameBet(): int
+    + getPayout(): int
+    + resetPayout(): void
+}
+
+class Player {
+    - name: String
+    - money: int
+    - totalWinMoney: int
+    - totalLostMoney: int
+    + getName(): String
+    + getMoney(): int
+    + getTotalWinMoney(): int
+    + getTotalLostMoney(): int
+    + addMoney(amount: int): void
+    + loseMoney(amount: int): void
+    + loseMoneyReturn(amount: int): int
+    + canPlay(): boolean
+    + showWinMoney(): void
+    + showLostMoney(): void
+    + getLostMoney(): int
+    + toString(): String
+}
+
+}
+
+' =========================
+' Associations et dépendances (liens)
+' =========================
+
+CasinoApp --> Player
+CasinoApp -> Casino
+Lotto -> Player
+
+@enduml
