@@ -83,7 +83,7 @@ public Roulette(int initialPayout) {
         return prize;
     }
 
-     public int getPlayCost() {
+     public int getCostPerGameBet() {
         return PLAY_COST;
     }
 
