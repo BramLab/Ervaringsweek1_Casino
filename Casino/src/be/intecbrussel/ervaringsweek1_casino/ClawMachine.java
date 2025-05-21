@@ -7,7 +7,6 @@ public class ClawMachine implements Casino {
     private final Random random = new Random();
     private final Scanner scanner;
 
-    private int balance = 0;
     private int moneyInTheBank = 0;
     private int numberOfTries = 0;
     private int totalPrizesWon = 0;
@@ -33,12 +32,12 @@ public class ClawMachine implements Casino {
     }
 
     private static final List<Item> machineItems = Arrays.asList(
-            new Item("Stuffed Bear", 20, "Common"),
+            new Item("Knuffelbeer", 20, "Common"),
             new Item("Plastic Ring", 5, "Common"),
-            new Item("Mini Car", 15, "Common"),
-            new Item("Golden Watch", 100, "Legendary"),
-            new Item("Diamond Ring", 150, "Legendary"),
-            new Item("Magic Cube", 50, "Rare"),
+            new Item("Mini Auto", 15, "Common"),
+            new Item("Gouden Horloge", 100, "Legendary"),
+            new Item("Diamanten Ring", 150, "Legendary"),
+            new Item("Magische Kubus", 50, "Rare"),
             new Item("Mystery Box", 75, "Rare")
     );
 
@@ -46,56 +45,44 @@ public class ClawMachine implements Casino {
         this.scanner = scanner;
     }
 
-    public void startGame() {
-        askForBalance();
-
-        System.out.println("\nEach play costs " + getCostPerGameBet() + " Try your luck!");
-        while (balance >= getCostPerGameBet()) {
-            System.out.println("\n💶 Current balance: €" + balance);
-            if (!askToPlay()) break;
-
-            balance -= getCostPerGameBet();
-            int prizeValue = playGame(getCostPerGameBet());
-            balance += prizeValue;
-        }
-
-        if (balance  <  getCostPerGameBet()) {
-            System.out.println("😢 You're out of money. Better luck next time!");
-        }
-
-        System.out.println("💰 Final balance: €" + balance);
-        printHistory();
-        System.out.println(getStats());
-
-        int collected = getPayout();
-        System.out.println("🏦 Casino collected €" + collected + " from the claw machine.");
-    }
-
-    private void askForBalance() {
-        System.out.print("Please enter your starting balance (in euros): ");
-        while (true) {
-            try {
-                balance = Integer.parseInt(scanner.nextLine());
-                if (balance <= 0) {
-                    System.out.print("Balance must be more than 0. Try again: ");
-                } else {
-                    break;
-                }
-            } catch (NumberFormatException e) {
-                System.out.print("Invalid input. Please enter a number: ");
-            }
-        }
-    }
-
-    private boolean askToPlay() {
-        System.out.print("Do you want to play the claw machine? (yes/no): ");
-        String input = scanner.nextLine();
-        return input.equalsIgnoreCase("yes");
+    @Override
+    public int getCostPerGameBet() {
+        return 1; // €1 per play
     }
 
     @Override
     public int playGame(int moneyPaid) {
+        int balance = moneyPaid;
+        int totalWinnings = 0;
 
+        System.out.println("\nElke beurt kost " + getCostPerGameBet() + "€. Probeer je geluk!");
+        while (balance >= getCostPerGameBet()) {
+            System.out.println("\n💶 Resterend saldo: €" + balance);
+            if (!askToPlay()) break;
+
+            balance -= getCostPerGameBet();
+            int prizeValue = startGame(getCostPerGameBet());
+            totalWinnings += prizeValue;
+        }
+
+        if (balance < getCostPerGameBet()) {
+            System.out.println("😢 Je hebt geen beurten meer. Volgende keer beter!");
+        }
+
+        System.out.println("🎁 Je hebt in totaal €" + totalWinnings + " gewonnen met de grijpmachine.");
+        printHistory();
+        System.out.println(getStats());
+
+        return totalWinnings;
+    }
+
+    private boolean askToPlay() {
+        System.out.print("Wil je spelen met de grijpmachine? (yes/no): ");
+        String input = scanner.nextLine();
+        return input.equalsIgnoreCase("yes");
+    }
+
+    private int startGame(int moneyPaid) {
         numberOfTries++;
         moneyInTheBank += moneyPaid;
 
@@ -110,11 +97,11 @@ public class ClawMachine implements Casino {
             totalPrizesWon++;
             totalValueWon += prizeItem.value;
             playSoundEffect("win");
-            System.out.println("🎉 You won: " + prizeItem);
+            System.out.println("🎉 Je hebt gewonnen: " + prizeItem);
             return prizeItem.value;
         } else {
             playSoundEffect("miss");
-            System.out.println("🙁 The claw missed. Better luck next time!");
+            System.out.println("🙁 De grijper miste. Volgende keer beter!");
             return 0;
         }
     }
@@ -141,35 +128,31 @@ public class ClawMachine implements Casino {
 
     private void logPlay(Item item) {
         if (item != null) {
-            history.add("Won: " + item.name + " (€" + item.value + ")");
+            history.add("Gewonnen: " + item.name + " (€" + item.value + ")");
         } else {
-            history.add("Missed");
+            history.add("Gemist");
         }
     }
 
     public void printHistory() {
-        System.out.println("\n🕹️ Game History:");
+        System.out.println("\n🕹️ Spelgeschiedenis:");
         for (String entry : history) {
             System.out.println("- " + entry);
         }
     }
 
     public String getStats() {
-        return "\n📊 Stats: " +
-                "\nTotal plays: " + numberOfTries +
-                "\nPrizes won: " + totalPrizesWon +
-                "\nTotal value of prizes: €" + totalValueWon +
-                "\nWin rate: " + (numberOfTries > 0 ? (100 * totalPrizesWon / numberOfTries) : 0) + "%";
+        return "\n📊 Statistieken: " +
+                "\nTotaal aantal beurten: " + numberOfTries +
+                "\nPrijzen gewonnen: " + totalPrizesWon +
+                "\nTotale waarde van prijzen: €" + totalValueWon +
+                "\nWinkans: " + (numberOfTries > 0 ? (100 * totalPrizesWon / numberOfTries) : 0) + "%";
     }
 
     private void playSoundEffect(String result) {
         switch (result) {
-            case "win":
-                System.out.println("🔊 *Victory jingle*");
-                break;
-            case "miss":
-                System.out.println("🔇 *Sad trombone*");
-                break;
+            case "win" -> System.out.println("🔊 *Victory jingle*");
+            case "miss" -> System.out.println("🔇 *Sad trombone*");
         }
     }
 
@@ -182,14 +165,9 @@ public class ClawMachine implements Casino {
     }
 
     @Override
-    public int getCostPerGameBet() {
-        return 1; // cost per game is €1
-    }
-
-    @Override
     public int getPayout() {
         int payout = moneyInTheBank;
-        moneyInTheBank = 0; // reset after payout collected
+        moneyInTheBank = 0;
         return payout;
     }
 }
