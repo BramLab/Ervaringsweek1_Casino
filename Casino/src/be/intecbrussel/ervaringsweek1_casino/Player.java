@@ -7,6 +7,9 @@ public class Player {
     private int totalWinMoney;  // Totaal gewonnen geld
     private int totalLostMoney; // Totaal verloren geld
 
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    
     //Constructor om een speler te maken met een naam en hoeveelheid geld
     public Player(String name, int money) {
         this.name = name;
@@ -87,8 +90,8 @@ public class Player {
     }
     @Override
     public String toString() {
-        return "Beste speler " + name + ", je hebt " + money + " euro in portefeuille.\n" +
-                "Je hebt " + totalWinMoney + " euro gewonnen vandaag en " +
-                totalLostMoney + " euro verloren.";
+        return "Beste speler " + ANSI_BLUE + name + ANSI_RESET + ", je hebt " +ANSI_BLUE+ money +ANSI_RESET+ " euro in portefeuille.\n" +
+                "Je hebt " +ANSI_BLUE+ totalWinMoney +ANSI_RESET+ " euro gewonnen vandaag en " + ANSI_BLUE +
+                totalLostMoney +ANSI_RESET+ " euro verloren.";
     }
 }
