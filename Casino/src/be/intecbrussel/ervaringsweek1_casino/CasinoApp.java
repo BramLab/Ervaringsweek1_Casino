@@ -41,6 +41,7 @@ public class CasinoApp {
         do{
             ShowWelcome();
             ShowPersonalInfo();
+            System.out.println();
             ShowGamesMenu();
             playerGameChoice = scanner.nextLine().toUpperCase();
             int playerMoneyInBet = 0;
@@ -80,6 +81,7 @@ public class CasinoApp {
                 };
 
                 int playCost = chosenMachine.getCostPerGameBet();
+
                 if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
                     System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
                     continue;

@@ -32,13 +32,13 @@ public class ClawMachine implements Casino {
     }
 
     private static final List<Item> machineItems = Arrays.asList(
-            new Item("Knuffelbeer", 20, "Common"),
+            new Item("Knuffelbeer", 3, "Common"),
             new Item("Plastic Ring", 5, "Common"),
-            new Item("Mini Auto", 15, "Common"),
-            new Item("Gouden Horloge", 100, "Legendary"),
-            new Item("Diamanten Ring", 150, "Legendary"),
-            new Item("Magische Kubus", 50, "Rare"),
-            new Item("Mystery Box", 75, "Rare")
+            new Item("Mini Auto", 8, "Common"),
+            new Item("Gouden Horloge", 40, "Legendary"),
+            new Item("Diamanten Ring", 50, "Legendary"),
+            new Item("Magische Kubus", 15, "Rare"),
+            new Item("Mystery Box", 10, "Rare")
     );
 
     public ClawMachine(Scanner scanner) {
