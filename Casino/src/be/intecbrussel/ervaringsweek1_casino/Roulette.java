@@ -50,38 +50,52 @@ public Roulette(int initialPayout) {
     }
 
     // main method required by the interface
-    @Override
-    public int playGame(int moneyPaid) {
+  @Override
+public int playGame(int moneyPaid) {
+    int balance = moneyPaid;
+    int totalWinnings = 0;
+    Scanner scanner = new Scanner(System.in);
 
-        // check bet amount
-        if (moneyPaid < PLAY_COST || moneyPaid % PLAY_COST != 0) {
-            System.out.println("Voeg een veelvoud van " + PLAY_COST + " € om te spelen.");
-            return 0;
+    System.out.println("\nElke beurt kost " + PLAY_COST + "€. Probeer je geluk!");
+
+    while (balance >= PLAY_COST) {
+        System.out.println("\n💶 Resterend saldo: €" + balance);
+
+        // Demander si l'utilisateur veut continuer
+        System.out.print("Wil je spelen met Roulette? (yes/no): ");
+        String input = scanner.nextLine();
+        if (!input.equalsIgnoreCase("yes")) {
+            break;
         }
 
-        // add bet to machine pot
-        payout += moneyPaid;
+        balance -= PLAY_COST;
 
-        // ask player for a number
-        Scanner in = new Scanner(System.in);
         System.out.print("Kies een getal tussen 0 en 20: ");
-        int playerChoice = in.nextInt();
+        int playerChoice = scanner.nextInt();
+        scanner.nextLine(); // flush
 
         if (playerChoice < 0 || playerChoice > 20) {
             System.out.println("Ongeldig nummer. Inzet verloren.");
-            return 0;
+            continue; // on ne rembourse pas cette partie, on continue le loop
         }
 
-        // run spin and show result
         int prize = spin(playerChoice);
-
         if (prize > 0) {
-            System.out.println("je hebt gewonnen " + prize + " €!");
+            System.out.println("Je hebt gewonnen " + prize + " €!");
         } else {
             System.out.println("Je hebt verloren. Het winnende nummer was " + winningNumber + ".");
         }
-        return prize;
+        totalWinnings += prize;
     }
+
+    if (balance < PLAY_COST) {
+        System.out.println("😢 Je hebt geen beurten meer. Volgende keer beter!");
+    }
+    System.out.println("🎰 Je hebt in totaal €" + totalWinnings + " gewonnen met Roulette.");
+
+    return totalWinnings;
+}
+
 
      public int getCostPerGameBet() {
         return PLAY_COST;
