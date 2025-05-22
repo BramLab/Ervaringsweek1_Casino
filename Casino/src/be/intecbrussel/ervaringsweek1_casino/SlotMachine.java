@@ -94,7 +94,8 @@ public class SlotMachine implements Casino {
 //                + "   "
 //            );
 
-            System.out.print("\n=== Beurt " + gameturn + " van " + possibleGames + " ===   💶 Resterend saldo: " +  ANSI_BLUE + balance + ANSI_RESET + ". ");
+            System.out.print("\n=== Beurt " + gameturn + " van " + possibleGames
+                    + " ===   💶 Resterend saldo: " +  ANSI_BLUE + balance + ANSI_RESET + ". ");
             if (!askToPlay()){
                 player.returnedMoneyAndNotLost(balance);
                 break;
