@@ -111,14 +111,24 @@ public class CasinoApp {
                 if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
                     System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
                     continue;
+                 // SPECIAL HANDLING FOR ROULETTE
+                if (chosenMachine instanceof Roulette) {
+                    Roulette roulette = (Roulette) chosenMachine; // 1. Remove bet from player's wallet 
+                    int moneyTaken = player.loseMoneyReturn(playerMoneyInBet);  // 2. Run the roulette game (returns only actual winnings)
+                    int gain = roulette.playGame(moneyTaken); // 3. Add the real winnings to the player
+                    player.addMoney(gain); // 4. Refund unplayed money
+                    player.returnedMoneyAndNotLost(roulette.getLastRefund()); // 5. Return what's left in the machine's payout to the casino safe
+                    moneyInSafe += roulette.getPayout();
+
+                } else {
+                    // DEFAULT HANDLING FOR OTHER GAMES 
+                    player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
+                    moneyInSafe += chosenMachine.getPayout();
                 }
-                player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
-                moneyInSafe += chosenMachine.getPayout();
             }
-            else{
+            else {
                 System.out.println("Gelieve een keuze uit het menu te maken aub.");
             }
-
         } while (!playerGameChoice.equals("0"));
 
     }
