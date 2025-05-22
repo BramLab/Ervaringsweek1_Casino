@@ -1,4 +1,5 @@
 package be.intecbrussel.ervaringsweek1_casino;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,13 +12,18 @@ public class Lotto implements Casino {
     //private Player player;
     private final int costPerGameBet = 100;
     private int winMoney;
-
-
-
+    private int unusedBet;
 
     public Lotto() {
-        //this.player = player;
-        //this.currentPayout = 0;
+        this(0);
+    }
+
+    public Lotto(int currentPayout) {
+        this.currentPayout = currentPayout;
+    }
+
+    public int getLastRefund() {
+        return unusedBet;
     }
 
     public int getCurrentPayout() {
@@ -42,40 +48,16 @@ public class Lotto implements Casino {
     }
 
     public void getNumbers(int input1, int input2, int input3) {
-
-        rollRandomNumbers();
-        compareNumbers(input1, input2, input3);
-
+        do{
+            rollRandomNumbers();
+            compareNumbers(input1, input2, input3);
+        } while (didYouWin && currentPayout < 500);
 
         if (didYouWin) {
-            if (currentPayout >= 500) {
-                System.out.println("\uD83C\uDF89 U hebt gewonnen! U krijgt 500 euro.");
-                winMoney += 500;
-                //player.loseMoney(costPerGameBet);
-                //player.loseMoney();
-                //currentPayout -= 500;
-
-            }
-           else {
-                while (true) {
-                    rollRandomNumbers();
-                    compareNumbers(input1, input2, input3);
-                    if (didYouWin) {
-                        System.out.println("\uD83C\uDF89 U hebt gewonnen! U krijgt 500 euro.");
-                        winMoney += 500;
-
-                        break;
-                    } else {
-                        System.out.println("\uD83D\uDCB8 U hebt verloren.");
-
-                        break;
-                    }
-                }
-            }
+            System.out.println("\uD83C\uDF89 U hebt gewonnen! U krijgt 500 euro.");
+            winMoney += 500;
         } else {
-            System.out.println("\uD83D\uDCB8 U hebt verloren!");
-
-            //currentPayout += costPerGameBet;
+            System.out.println("\uD83D\uDCB8 U hebt verloren.");
         }
         System.out.println("Lotto-nummers waren: " + number1 + ", " + number2 + ", " + number3);
     }
@@ -87,7 +69,6 @@ public class Lotto implements Casino {
 
     @Override
     public int playGame(int moneyPaid) {
-        int unusedBet = 0;
         int lostmoney = 0;
         //System.out.println("playgame init actual money: " + money + " euros.");
         Scanner scanner = new Scanner(System.in);
@@ -130,6 +111,7 @@ public class Lotto implements Casino {
                     unusedBet = (totalRounds - round) * costPerGameBet;
                     lostmoney = round  * costPerGameBet;
 
+
                     System.out.println("U hebt het spel beëindigd.");
                     System.out.println( unusedBet + " euro is terugbetaald.");
 
@@ -138,10 +120,13 @@ public class Lotto implements Casino {
             }
 
         }
-                        System.out.println( "Beste, u hebt " +"🎁 "+ winMoney + " euro gewonnen. ");
-                        System.out.println("U hebt " +"\uD83D\uDCB8 "+ (lostmoney) + " euro verloren.");
-                                System.out.println( " Total is: " + ( winMoney + moneyPaid - lostmoney));
-        return  ( winMoney + moneyPaid - lostmoney);
+
+        System.out.println( "Beste, u hebt " +"🎁 "+ winMoney + " euro gewonnen. ");
+        System.out.println("U hebt " +"\uD83D\uDCB8 "+ (lostmoney) + " euro verloren.");
+        System.out.println( " Total is: " + ( winMoney + moneyPaid - lostmoney));
+
+        currentPayout += lostmoney;
+        return winMoney;
     }
 
 

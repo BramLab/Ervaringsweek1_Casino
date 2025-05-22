@@ -101,7 +101,7 @@ public class CasinoApp {
                 Casino chosenMachine = switch (playerGameChoice) {
                     case "1" -> new ClawMachine(scanner);
                     case "2" -> new SlotMachine(removeFromSafe(1000));
-                    case "3" -> new Lotto(player);
+                    case "3" -> new Lotto();
                     case "4" -> new Roulette(removeFromSafe(1000));
                     default -> null;
                 };
@@ -112,29 +112,14 @@ public class CasinoApp {
                     System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
                     continue;
                 }
-                 // SPECIAL HANDLING FOR ROULETTE
-//                if (chosenMachine instanceof Roulette) {
-//                    Roulette roulette = (Roulette) chosenMachine; // 1. Remove bet from player's wallet
-//                    int moneyTaken = player.loseMoneyReturn(playerMoneyInBet);  // 2. Run the roulette game (returns only actual winnings)
-//                    int gain = roulette.playGame(moneyTaken); // 3. Add the real winnings to the player
-//                    player.addMoney(gain); // 4. Refund unplayed money
-//                    player.returnedMoneyAndNotLost(roulette.getLastRefund()); // 5. Return what's left in the machine's payout to the casino safe
-//                    moneyInSafe += roulette.getPayout();
-//
-//                } else {
-                    // DEFAULT HANDLING FOR OTHER GAMES 
-                    player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
-                    if (chosenMachine instanceof Roulette) {
-                        //Roulette roulette = (Roulette) chosenMachine;
-                        player.returnedMoneyAndNotLost(((Roulette)chosenMachine).getLastRefund());
-                    }
-                    if (chosenMachine instanceof SlotMachine) {
-                        //SlotMachine slotMachine = (SlotMachine) chosenMachine;
-                        player.returnedMoneyAndNotLost(((SlotMachine)chosenMachine).getLastRefund());
-                    }
 
-                    moneyInSafe += chosenMachine.getPayout();
-//                }
+                // The special handlings could be avoided by putting getLastRefund() into the interface.
+                player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
+                if (chosenMachine instanceof Roulette) player.returnedMoneyAndNotLost(((Roulette)chosenMachine).getLastRefund());
+                if (chosenMachine instanceof SlotMachine) player.returnedMoneyAndNotLost(((SlotMachine)chosenMachine).getLastRefund());
+                if (chosenMachine instanceof Lotto) player.returnedMoneyAndNotLost(((Lotto)chosenMachine).getLastRefund());
+
+                moneyInSafe += chosenMachine.getPayout();
             }
             else {
                 System.out.println("Gelieve een keuze uit het menu te maken aub.");
