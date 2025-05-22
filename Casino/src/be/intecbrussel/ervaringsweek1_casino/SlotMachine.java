@@ -102,7 +102,7 @@ public class SlotMachine implements Casino {
             moneyWon += playTheSlots();
             gameturn ++;
         } while(balance >= 50);
-        player.returnedMoneyAndNotLost(moneyRest);
+        player.returnedMoneyAndNotLost(moneyRest);// Only if a game was started with e.g. 60 instead of 50.
         return moneyWon + moneyRest;
     }
 
