@@ -11,7 +11,7 @@ public class Lotto implements Casino {
     private boolean didYouWin;
     private final int costPerGameBet = 100;
     private int moneyWon;
-    int unusedBet;
+    private int unusedBet;
 
     public Lotto(int currentPayout) {
         this.currentPayout = currentPayout;
