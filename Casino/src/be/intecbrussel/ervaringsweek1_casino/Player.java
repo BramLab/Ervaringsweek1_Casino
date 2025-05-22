@@ -98,8 +98,8 @@ public class Player {
     }
     @Override
     public String toString() {
-        return "Beste speler " + ANSI_BLUE + name + ANSI_RESET + ", je hebt " +ANSI_BLUE+ money +ANSI_RESET+ " euro in portefeuille.\n" +
-                "Je hebt " +ANSI_BLUE+ totalWinMoney +ANSI_RESET+ " euro gewonnen vandaag en " + ANSI_BLUE +
-                totalLostMoney +ANSI_RESET+ " euro verloren.";
+        return "Beste " + ANSI_BLUE + name + ANSI_RESET + ", u hebt \uD83D\uDCB6 " +ANSI_BLUE+ money +ANSI_RESET+ " euro in portefeuille.\n" +
+                "U hebt " +ANSI_BLUE+"🎁 "+ totalWinMoney +ANSI_RESET+ " euro gewonnen. "
+                +"U hebt "+ ANSI_BLUE +"\uD83D\uDCB8 "+ totalLostMoney +ANSI_RESET+ " euro verloren.";
     }
 }
