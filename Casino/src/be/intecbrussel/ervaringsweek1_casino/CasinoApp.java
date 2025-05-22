@@ -111,6 +111,7 @@ public class CasinoApp {
                 if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
                     System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
                     continue;
+                }
                  // SPECIAL HANDLING FOR ROULETTE
                 if (chosenMachine instanceof Roulette) {
                     Roulette roulette = (Roulette) chosenMachine; // 1. Remove bet from player's wallet 
