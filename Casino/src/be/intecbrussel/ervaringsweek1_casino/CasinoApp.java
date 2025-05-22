@@ -53,8 +53,7 @@ public class CasinoApp {
                 startMoney = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (Exception e ) {
-                --numTries;
-                if (numTries == 0) throw e;
+                if (--numTries == 0) throw e;
                 System.out.println("Geef een getal in aub.");
                 //break; // Cannot use this, why not? -> java: variable startMoney might not have been initialized
             }
@@ -72,9 +71,7 @@ public class CasinoApp {
             ShowGamesMenu();
             playerGameChoice = scanner.nextLine().toUpperCase();
             int playerMoneyInBet = 0;
-            int costPerGameBet = 0;// Different per game machine.
 
-            // region B) MAKE USE OF INTERFACE:
             if (playerGameChoice.equals("SECRET")){
                 SecretAdminMenu();
              }
@@ -108,7 +105,6 @@ public class CasinoApp {
                     case "4" -> new Roulette(removeFromSafe(1000));
                     default -> null;
                 };
-                //if (chosenMachine == null) continue;
 
                 int playCost = chosenMachine.getCostPerGameBet();
 
@@ -140,8 +136,6 @@ public class CasinoApp {
         System.out.println(player);
     }
 
-
-
     // We could make these options in another color depending on money left in Player's wallet.
     public void ShowGamesMenu(){
 
@@ -160,7 +154,6 @@ public class CasinoApp {
     public void SecretAdminMenu(){
         System.out.println(ANSI_RED + "Geld in de kluis: " + moneyInSafe + ANSI_RESET);
     }
-
 
     public static void main(String[] args){
         CasinoApp casinoApp = new CasinoApp();

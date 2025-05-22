@@ -79,6 +79,9 @@ public class SlotMachine implements Casino {
         int moneyRest = moneyPutIn%50;
         int balance = moneyPutIn - moneyRest;
         int gameturn = 1;
+        int possibleGames = moneyPutIn/PLAY_COST;
+
+        System.out.println("\uD83C\uDFB0 Welkom bij Slot Machine");
 
         // PER GAME:
         do{
@@ -91,7 +94,7 @@ public class SlotMachine implements Casino {
 //                + "   "
 //            );
 
-            System.out.print("\nBeurt " + gameturn + ": 💶 Resterend saldo: " +  ANSI_BLUE + balance + ANSI_RESET + ". ");
+            System.out.print("\n=== Beurt " + gameturn + " van " + possibleGames + " ===   💶 Resterend saldo: " +  ANSI_BLUE + balance + ANSI_RESET + ". ");
             if (!askToPlay()){
                 player.returnedMoneyAndNotLost(balance);
                 break;
