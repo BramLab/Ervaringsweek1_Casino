@@ -98,13 +98,13 @@ public class Lotto implements Casino {
         System.out.println("\uD83C\uDFB1 Welkom bij Lotto.");
         System.out.println("U hebt 💶 " + moneyPaid + " euro ingezet.");
 
-        if (moneyPaid < costPerGameBet || moneyPaid % costPerGameBet != 0) {
-            System.out.println("Bedrag moet een veelvoud zijn van " + costPerGameBet + " euro (minimum " + costPerGameBet + ").");
-            return 0;
-        }
+//        if (moneyPaid < costPerGameBet || moneyPaid % costPerGameBet != 0) {
+//            System.out.println("Bedrag moet een veelvoud zijn van " + costPerGameBet + " euro (minimum " + costPerGameBet + ").");
+//            return 0;
+//        }
 
         // Trek het ingezette geld direct van de speler af
-        player.loseMoney(moneyPaid);
+        //player.loseMoneyReturn(moneyPaid);
 
         int aantalBeurten = moneyPaid / costPerGameBet;
         System.out.println("Je kunt maximaal " + aantalBeurten + " keer spelen.");

@@ -56,6 +56,7 @@ class SlotMachine implements Casino {
     - currentPayout: int
     - odds: int
     - random: Random
+    - player: Player
     + getCurrentPayout(): int
     - whatOddsToGive(): void
     + playGame(moneyPaid: int): int
@@ -119,7 +120,8 @@ class Player {
 ' =========================
 
 CasinoApp --> Player
-CasinoApp -> Casino
+CasinoApp --> Casino
+SlotMachine --> Player
 Lotto -> Player
 
 @enduml

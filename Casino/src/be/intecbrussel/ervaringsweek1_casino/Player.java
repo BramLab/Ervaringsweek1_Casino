@@ -54,16 +54,6 @@ public class Player {
     }
 
     //Methode om de hoeveelheid geld van de speler te verminderen
-    public void loseMoney(int amount) {
-        if (amount > 0) {
-            // Zorg dat saldo niet negatief wordt: verlies maximaal het bedrag dat beschikbaar is
-            if (amount > money) {
-                amount = money;
-            }
-            money -= amount;           // Verlaag het saldo met het verliesbedrag
-            totalLostMoney += amount;  // Houd het verlies bij
-        }
-    }
     public int loseMoneyReturn(int amount) {
         if (amount > 0) {
             if (amount > money) {

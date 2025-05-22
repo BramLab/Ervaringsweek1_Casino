@@ -24,23 +24,18 @@ import java.util.Scanner;
 
 public class SlotMachine implements Casino {
 
-    // Properties.
     private int currentPayout;
     private int odds;
     private Random random;
     private static final int PLAY_COST = 50;
     private Player player;
     private Scanner scanner;
+    private int balance;
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_YELLOW_BRIGHT = "\u001B[93m";
-
-    // Constructors
-    public SlotMachine(int initialPayout, Player player){
-        this(initialPayout);
-        this.player = player;
-    }
 
     public SlotMachine(int initialPayout) {
         currentPayout = initialPayout;
@@ -48,20 +43,15 @@ public class SlotMachine implements Casino {
         scanner = new Scanner(System.in);
     }
 
-    public SlotMachine() {
-        this(0);
-    }
-
-    // Methods
-    public int getCurrentPayout(){
-        return currentPayout;
-    }
-
     private void whatOddsToGive() {
         if (currentPayout > 1000)       odds =   10;
         else if (currentPayout > 900)   odds =  100;
         else if (currentPayout > 800)   odds = 1000;
         else                            odds =    1;
+    }
+
+    public int getLastRefund() {
+        return balance;
     }
 
     @Override
@@ -76,38 +66,25 @@ public class SlotMachine implements Casino {
         }
 
         int moneyWon = 0;
-        int moneyRest = moneyPutIn%50;
-        int balance = moneyPutIn - moneyRest;
+        balance = moneyPutIn;// - moneyRest;
         int gameturn = 1;
         int possibleGames = moneyPutIn/PLAY_COST;
-
         System.out.println("\uD83C\uDFB0 Welkom bij Slot Machine");
 
         // PER GAME:
         do{
-//            System.out.print("Turn " + gameturn
-//                + ", balance " + balance
-//                + ", moneyRest " + moneyRest
-//                + ", odds " + odds
-//                + ", moneyWon " + moneyWon
-//                + ", currentPayout" + currentPayout
-//                + "   "
-//            );
-
             System.out.print("\n=== Beurt " + gameturn + " van " + possibleGames
                     + " ===   💶 Resterend saldo: " +  ANSI_BLUE + balance + ANSI_RESET + ". ");
             if (!askToPlay()){
-                player.returnedMoneyAndNotLost(balance);
                 break;
             }
 
-            balance -= 50;
-            currentPayout += 50;// danger if this "extra" would allow for extra plays -> infinite loop?
+            balance -= PLAY_COST;
+            currentPayout += PLAY_COST;// danger if this "extra" would allow for extra plays -> infinite loop?
             moneyWon += playTheSlots();
             gameturn ++;
-        } while(balance >= 50);
-        player.returnedMoneyAndNotLost(moneyRest);// Only if a game was started with e.g. 60 instead of 50.
-        return moneyWon + moneyRest;
+        } while(balance >= PLAY_COST);
+        return moneyWon;
     }
 
     private int playTheSlots() {
