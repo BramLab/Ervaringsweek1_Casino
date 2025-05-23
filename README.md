@@ -80,6 +80,7 @@ After three consecutive house losses, or when the pot is almost empty, the algor
 └────────────────────────┘
 
 
+
 *(UML matches the project structure. See UML diagram for all class details.)*
 
 ---
