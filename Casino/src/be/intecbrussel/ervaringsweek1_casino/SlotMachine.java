@@ -63,7 +63,7 @@ public class SlotMachine implements Casino {
         if (moneyPutIn < 50) {
             System.out.println("Niet genoeg geld! Je moet 50 EURO inzetten.");
             return moneyPutIn;
-        }
+        }// test
 
         int moneyWon = 0;
         balance = moneyPutIn;// - moneyRest;

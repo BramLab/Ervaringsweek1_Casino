@@ -2,7 +2,7 @@ package be.intecbrussel.ervaringsweek1_casino;
 
 
 import java.util.*;
-
+// test
 public class ClawMachine implements Casino {
     private final Random random = new Random();
     private final Scanner scanner;

@@ -1,7 +1,7 @@
 package be.intecbrussel.ervaringsweek1_casino;
 
 public interface Casino {
-
+    // test
     // Get minumum bet amount to be able to play this game.
     int getCostPerGameBet();
 

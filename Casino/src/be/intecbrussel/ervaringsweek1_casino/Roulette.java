@@ -3,7 +3,7 @@ package be.intecbrussel.ervaringsweek1_casino;
 import java.util.Scanner;
 
 public class Roulette implements Casino {
-
+    // test
     // Instance variables
     private int amountsOfTimesHouseLost;   // counts consecutive house losses
     private int winningNumber;             // last rolled number (0-20)

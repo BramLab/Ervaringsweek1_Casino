@@ -16,7 +16,7 @@ public class Player {
         this.money = money;
         this.totalWinMoney = 0;
         this.totalLostMoney = 0;
-    }
+    }// test
 
     //Getter voor de naam van de persoon
     public String getName() {

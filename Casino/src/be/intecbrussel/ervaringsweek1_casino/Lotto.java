@@ -81,7 +81,7 @@ public class Lotto implements Casino {
 //        }
 
         // Deduct the total bet amount from the player immediately (reserved bet)
-
+        // test
 
         //System.out.println("after removing actual money: " + player.getMoney() + " euros. round: ");
         int totalRounds = moneyPaid / costPerGameBet;

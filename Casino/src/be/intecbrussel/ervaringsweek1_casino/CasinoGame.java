@@ -1,7 +1,7 @@
 package be.intecbrussel.ervaringsweek1_casino;
 
 public enum CasinoGame {
-
+    // test
     ClawMachine("c", 1),
     SlotMachine("s", 50),
     Lotto("l", 100),
