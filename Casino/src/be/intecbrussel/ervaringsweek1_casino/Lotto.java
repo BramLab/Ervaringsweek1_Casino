@@ -43,10 +43,9 @@ public class Lotto implements Casino {
     }
 
     private void compareNumbers(int input1, int input2, int input3) {
-        didYouWin =
-                number1 == input1 || number1 == input2 || number1 == input3 ||
-                number2 == input1 || number2 == input2 || number2 == input3 ||
-                number3 == input1 || number3 == input2 || number3 == input3;
+        didYouWin = number1 == input1 || number1 == input2 || number1 == input3 || 
+                    number2 == input1 || number2 == input2 || number2 == input3 || 
+                    number3 == input1 || number3 == input2 || number3 == input3;
     }
 
     public void getNumbers(int input1, int input2, int input3) {
