@@ -51,33 +51,8 @@ After three consecutive house losses, or when the pot is almost empty, the algor
 ## Architecture
 
 
-┌────────────────────────┐
-│     <<interface>>      │
-│        Casino          │◄─── Interface for all games
-│ +getCostPerGameBet()   │
-│ +playGame(moneyPaid)   │
-│ +getPayout()           │
-└──────────┬─────────────┘
-     «implements»     «implements»    «implements»     «implements»
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│ ClawMachine  │  │ SlotMachine  │  │ Lotto        │  │ Roulette     │
-└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘
+![image](./Info/uml.png)
 
-┌────────────────────────┐
-│        Player          │
-│ -name: String          │
-│ -money: int            │
-│ +addMoney(int)         │
-│ +loseMoneyReturn(int)  │
-│ +returnedMoneyAndNotLost(int) │
-│ +getMoney(), etc.      │
-└────────────────────────┘
-
-┌────────────────────────┐
-│      CasinoApp         │
-│  • displays menu       │
-│  • drives game loop    │
-└────────────────────────┘
 
 
 
