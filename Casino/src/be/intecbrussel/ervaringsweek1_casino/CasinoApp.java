@@ -3,8 +3,6 @@ package be.intecbrussel.ervaringsweek1_casino;
 import java.util.Scanner;
 
 public class CasinoApp {
-
-
     // Fields.
     private Player player;
     private int moneyInSafe;
@@ -70,7 +68,7 @@ public class CasinoApp {
 
             if (playerGameChoice.equals("SECRET")){
                 SecretAdminMenu();
-             }
+            }
             else if (playerGameChoice.equals("0")){
                 break;
             }
@@ -102,26 +100,20 @@ public class CasinoApp {
                     default -> null;
                 };
 
-                if (playerGameChoice.equalsIgnoreCase("3"))
-                {
-                    //System.out.println("Passing here");
-                    chosenMachine.playGame(playerMoneyInBet);
-                }
-                else{
-                    int playCost = chosenMachine.getCostPerGameBet();
+                int playCost = chosenMachine.getCostPerGameBet();
 
-                    if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
-                        System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
-                        continue;
-                    }
-                    // The special handlings could be avoided by putting getLastRefund() into the interface.
-                    player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
-                    if (chosenMachine instanceof Roulette) player.returnedMoneyAndNotLost(((Roulette)chosenMachine).getLastRefund());
-                    if (chosenMachine instanceof SlotMachine) player.returnedMoneyAndNotLost(((SlotMachine)chosenMachine).getLastRefund());
-                    //if (chosenMachine instanceof Lotto) player.returnedMoneyAndNotLost(((Lotto)chosenMachine).getLastRefund());
-
-                    moneyInSafe += chosenMachine.getPayout();
+                if (playerMoneyInBet % playCost != 0 || playerMoneyInBet < playCost) {
+                    System.out.println(ANSI_RED + "Gelieve een veelvoud van " + playCost + " in te geven aub." + ANSI_RESET);
+                    continue;
                 }
+
+                // The special handlings could be avoided by putting getLastRefund() into the interface.
+                player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
+                if (chosenMachine instanceof Roulette) player.returnedMoneyAndNotLost(((Roulette)chosenMachine).getLastRefund());
+                if (chosenMachine instanceof SlotMachine) player.returnedMoneyAndNotLost(((SlotMachine)chosenMachine).getLastRefund());
+                if (chosenMachine instanceof Lotto) player.returnedMoneyAndNotLost(((Lotto)chosenMachine).getLastRefund());
+
+                moneyInSafe += chosenMachine.getPayout();
             }
             else {
                 System.out.println("Gelieve een keuze uit het menu te maken aub.");
@@ -148,13 +140,13 @@ public class CasinoApp {
 
         System.out.println(
                 ANSI_RED + "1" + ANSI_RESET + " \uD83D\uDD79\uFE0F     Claw Machine   1€/spel, " +
-                    ANSI_RED + "\n2" + ANSI_RESET + " \uD83C\uDFB0     Slot Machine  50€/spel, " +
-                ANSI_RED + "\n3" + ANSI_YELLOW_BRIGHT + " ❿" + ANSI_CYAN + "❸" + ANSI_RED + "❹" + ANSI_GREEN + "❺"
+                        ANSI_RED + "\n2" + ANSI_RESET + " \uD83C\uDFB0     Slot Machine  50€/spel, " +
+                        ANSI_RED + "\n3" + ANSI_YELLOW_BRIGHT + " ❿" + ANSI_CYAN + "❸" + ANSI_RED + "❹" + ANSI_GREEN + "❺"
                         + ANSI_RESET + "  Lotto        100€/spel, " +
-                //ANSI_RED + "\n4" + ANSI_WHITE_BRIGHT + ANSI_BLACK_BG + " 3" + ANSI_RED_BG + "26" + ANSI_GREEN_BG + "0"+ ANSI_RED_BG + "32" + ANSI_BLACK_BG + "15" + ANSI_RESET + " Roulette 200€/spel." +
-                ANSI_RED + "\n4 " + ANSI_WHITE_BRIGHT + ANSI_BLACK_BG + "3" + ANSI_RED_BG + "6" + ANSI_GREEN_BG + "0"
+                        //ANSI_RED + "\n4" + ANSI_WHITE_BRIGHT + ANSI_BLACK_BG + " 3" + ANSI_RED_BG + "26" + ANSI_GREEN_BG + "0"+ ANSI_RED_BG + "32" + ANSI_BLACK_BG + "15" + ANSI_RESET + " Roulette 200€/spel." +
+                        ANSI_RED + "\n4 " + ANSI_WHITE_BRIGHT + ANSI_BLACK_BG + "3" + ANSI_RED_BG + "6" + ANSI_GREEN_BG + "0"
                         + ANSI_RED_BG + "5" + ANSI_BLACK_BG + "7" + ANSI_RESET + "  Roulette     200€/spel." +
-                ANSI_RED + "\n0" + ANSI_RESET + "        Exit. (Spel beeindigen.)");
+                        ANSI_RED + "\n0" + ANSI_RESET + "        Exit. (Spel beeindigen.)");
         System.out.print("Maak een spelkeuze aub: ");
     }
 
