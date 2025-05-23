@@ -51,7 +51,7 @@ After three consecutive house losses, or when the pot is almost empty, the algor
 ## Architecture
 
 
-![image](./Info/uml.png)
+![image](Casino/Info/uml.png)
 
 
 
