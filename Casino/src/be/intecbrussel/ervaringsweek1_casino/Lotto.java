@@ -1,5 +1,4 @@
 package be.intecbrussel.ervaringsweek1_casino;
-
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,32 +8,25 @@ public class Lotto implements Casino {
     private int number3;
     private int currentPayout;
     private boolean didYouWin;
-    //private Player player;
-    private final int costPerGameBet = 100;
+    private final int costPerGameBet = 100;//Kosten per spelronde
     private int winMoney;
-    private int unusedBet;
 
+    //Constructor
     public Lotto() {
-        this(0);
     }
 
-    public Lotto(int currentPayout) {
-        this.currentPayout = currentPayout;
-    }
-
-    public int getLastRefund() {
-        return unusedBet;
-    }
-
+    //Geeft het huidige uitbetalingsbedrag terug
     public int getCurrentPayout() {
         return currentPayout;
     }
 
+    // Implementeert de methode uit de interface
     @Override
     public int getPayout() {
         return getCurrentPayout();
     }
 
+    // Genereert drie willekeurige getallen tussen 0 en 10
     private void rollRandomNumbers() {
         Random random = new Random();
         number1 = random.nextInt(11);
@@ -42,52 +34,68 @@ public class Lotto implements Casino {
         number3 = random.nextInt(11);
     }
 
+    // Vergelijkt de drie gegenereerde getallen met de invoer van de speler
     private void compareNumbers(int input1, int input2, int input3) {
         didYouWin =
-                number1 == input1 || number1 == input2 || number1 == input3;
+                number1 == input1 || number1 == input2 || number1 == input3 ||
+                        number2 == input1 || number2 == input2 || number2 == input3 ||
+                        number3 == input1 || number3 == input2 || number3 == input3;
     }
 
+    // Voert het spel uit met de gekozen nummers van de speler
     public void getNumbers(int input1, int input2, int input3) {
-        do{
-            rollRandomNumbers();
-            compareNumbers(input1, input2, input3);
-        } while (didYouWin && currentPayout < 500);
-
+        rollRandomNumbers();  // Genereer lotto-nummers
+        compareNumbers(input1, input2, input3); // Vergelijk met de input van de speler
+        // Als je wint:
         if (didYouWin) {
-            System.out.println("\uD83C\uDF89 U hebt gewonnen! U krijgt 500 euro.");
-            winMoney += 500;
+            if (currentPayout >= 500) {
+                System.out.println("\uD83C\uDF89 U hebt gewonnen! U krijgt 500 euro.");
+                winMoney += 500;
+            } else {
+                while (true) { // Nog een kans als je saldo lager is dan 500
+                    rollRandomNumbers();
+                    compareNumbers(input1, input2, input3);
+                    if (didYouWin) {
+                        System.out.println("\uD83C\uDF89 U hebt gewonnen! U krijgt 500 euro.");
+                        winMoney += 500;
+                        break;
+                    } else {
+                        System.out.println("\uD83D\uDCB8 U hebt verloren.");
+                        break;
+                    }
+                }
+            }
         } else {
-            System.out.println("\uD83D\uDCB8 U hebt verloren.");
+            System.out.println("\uD83D\uDCB8 U hebt verloren!");
         }
+
+        // Toon de willekeurige nummers
         System.out.println("Lotto-nummers waren: " + number1 + ", " + number2 + ", " + number3);
     }
 
+    // Kosten per spelbeurt
     @Override
     public int getCostPerGameBet() {
         return costPerGameBet;
     }
 
+    // Speel het spel. Geld wordt betaald vooraf, en er zijn meerdere rondes mogelijk.
     @Override
-    public int playGame(int moneyPaid) {
-        int lostmoney = 0;
-        //System.out.println("playgame init actual money: " + money + " euros.");
+    public int playGame(int moneyPaid) { // Houd bij hoeveel geld er betaald is
+        currentPayout = moneyPaid;
+        int unusedBet = 0; // Bedrag dat teruggegeven wordt bij vroegtijdig stoppen
+        int lostmoney = 0; // Totaal verloren bedrag
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("🎱 Welkom bij Lotto.");
         System.out.println("U hebt 💶 " + moneyPaid + " euro betaald.");
-
-//        if (moneyPaid < costPerGameBet || moneyPaid % costPerGameBet != 0) {
-//            System.out.println("Amount must be a multiple of " + costPerGameBet + " euros (minimum " + costPerGameBet + ").");
-//            return 0;
-//        }
-
-        // Deduct the total bet amount from the player immediately (reserved bet)
-
-
-        //System.out.println("after removing actual money: " + player.getMoney() + " euros. round: ");
         int totalRounds = moneyPaid / costPerGameBet;
         lostmoney = totalRounds * costPerGameBet;
+
+        // Loop over het aantal mogelijke rondes
         for (int round = 1; round <= totalRounds; round++) {
             System.out.println("=== Beurt " + round + " van " + totalRounds + " ===");
+            // Speler voert drie nummers in
             System.out.println("Voer uw eerste nummer in (0-10): ");
             int input1 = scanner.nextInt();
             System.out.println("Voer uw tweede nummer in (0-10): ");
@@ -95,41 +103,38 @@ public class Lotto implements Casino {
             System.out.println("Voer uw derde nummer in (0-10): ");
             int input3 = scanner.nextInt();
 
+            // Valideer de invoer
             if (!isValidNumber(input1) || !isValidNumber(input2) || !isValidNumber(input3)) {
                 System.out.println("Ongeldige invoer! Getallen moeten tussen 0 en 10 liggen.");
                 break;
             }
 
+            // Speel deze beurt met de ingevoerde nummers
             getNumbers(input1, input2, input3);
 
             if (round < totalRounds) {
-
-
                 System.out.println("Wilt u verder spelen: (j/n)");
                 String answer = scanner.next();
                 if (!answer.equalsIgnoreCase("j")) {
-                    unusedBet = (totalRounds - round) * costPerGameBet;
-                    lostmoney = round  * costPerGameBet;
 
+                    // Als speler stopt, bereken ongebruikte inzetten
+                    unusedBet = (totalRounds - round) * costPerGameBet;
+                    lostmoney = round * costPerGameBet;
 
                     System.out.println("U hebt het spel beëindigd.");
-                    System.out.println( unusedBet + " euro is terugbetaald.");
-
+                    System.out.println(unusedBet + " euro is terugbetaald.");
                     break;
                 }
             }
-
         }
-
-        System.out.println( "Beste, u hebt " +"🎁 "+ winMoney + " euro gewonnen. ");
-        System.out.println("U hebt " +"\uD83D\uDCB8 "+ (lostmoney) + " euro verloren.");
-        System.out.println( " Total is: " + ( winMoney + moneyPaid - lostmoney));
-
-        currentPayout += lostmoney;
-        return winMoney;
+        //Toon resultaten
+        System.out.println("Beste, u hebt " + "🎁 " + winMoney + " euro gewonnen. ");
+        System.out.println("U hebt " + "\uD83D\uDCB8 " + (lostmoney) + " euro verloren.");
+        System.out.println("Total is: " + (winMoney + moneyPaid - lostmoney));
+        return (winMoney + moneyPaid - lostmoney);
     }
-
-
+    
+    // Controle of een getal geldig is (tussen 0 en 10)
     private boolean isValidNumber(int number) {
         return number >= 0 && number <= 10;
     }
