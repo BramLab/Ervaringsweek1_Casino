@@ -56,6 +56,7 @@ public class ClawMachine implements Casino {
         int totalWinnings = 0;
 
         System.out.println("\nElke beurt kost " + getCostPerGameBet() + "€. Probeer je geluk!");
+
         while (balance >= getCostPerGameBet()) {
             System.out.println("\n💶 Resterend saldo: €" + balance);
             if (!askToPlay()) break;
@@ -68,6 +69,7 @@ public class ClawMachine implements Casino {
         if (balance < getCostPerGameBet()) {
             System.out.println("😢 Je hebt geen beurten meer. Volgende keer beter!");
         }
+
 
         System.out.println("🎁 Je hebt in totaal €" + totalWinnings + " gewonnen met de grijpmachine.");
         printHistory();

@@ -5,10 +5,6 @@ import java.util.Scanner;
 public class CasinoApp {
 
 
-
-
-
-
     // Fields.
     private Player player;
     private int moneyInSafe;
@@ -121,8 +117,8 @@ public class CasinoApp {
                     // The special handlings could be avoided by putting getLastRefund() into the interface.
                     player.addMoney(chosenMachine.playGame(player.loseMoneyReturn(playerMoneyInBet)));
                     if (chosenMachine instanceof Roulette) player.returnedMoneyAndNotLost(((Roulette)chosenMachine).getLastRefund());
-                    //if (chosenMachine instanceof SlotMachine) player.returnedMoneyAndNotLost(((SlotMachine)chosenMachine).getLastRefund());
-                    if (chosenMachine instanceof Lotto) player.returnedMoneyAndNotLost(((Lotto)chosenMachine).getLastRefund());
+                    if (chosenMachine instanceof SlotMachine) player.returnedMoneyAndNotLost(((SlotMachine)chosenMachine).getLastRefund());
+                    //if (chosenMachine instanceof Lotto) player.returnedMoneyAndNotLost(((Lotto)chosenMachine).getLastRefund());
 
                     moneyInSafe += chosenMachine.getPayout();
                 }
